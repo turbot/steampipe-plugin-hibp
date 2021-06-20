@@ -32,11 +32,10 @@ func tableBreach() *plugin.Table {
 		Name:        "hibp_breach",
 		Description: "Breaches tracked by HIBP",
 		List: &plugin.ListConfig{
-			KeyColumns: plugin.SingleColumn("name"),
-			Hydrate:    listBreaches,
+			Hydrate: listBreaches,
 		},
 		Get: &plugin.GetConfig{
-			KeyColumns: plugin.AllColumns([]string{"name"}),
+			KeyColumns: plugin.AnyColumn([]string{"name", "breach_date"}),
 			Hydrate:    getBreach,
 		},
 		Columns: []*plugin.Column{
@@ -79,5 +78,18 @@ func listBreaches(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateDat
 }
 
 func getBreach(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
+	client, err := hibp.NewClient(*GetConfig(d.Connection).ApiKey, nil)
+	quals := d.KeyColumnQuals
+	name := quals["name"].GetStringValue()
+	if err != nil {
+		return nil, err
+	}
 
+	breach, _, err := client.Breaches.GetBreach(name)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return breach, nil
 }

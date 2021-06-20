@@ -19,7 +19,7 @@
 /vendor/
 /Godeps/
 
-### VisualStudioCode ###
+
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
@@ -27,14 +27,6 @@
 !.vscode/extensions.json
 *.code-workspace
 
-### VisualStudioCode Patch ###
-# Ignore all local history of files
-.history
-.ionide
-
 # Output Binary
-steampipe-plugin-gitlab
-steampipe-plugin-gitlab.plugin
-
-# Goland
-.idea/
+steampipe-plugin-hibp
+steampipe-plugin-hibp.plugin

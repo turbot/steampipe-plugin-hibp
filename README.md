@@ -1,45 +1,42 @@
-![image](https://github.com/theapsgroup/steampipe-plugin-gitlab/raw/main/docs/gitlab-plugin-social-graphic.png)
+# Have I Been Pwned? plugin for Steampipe
 
-# GitLab plugin for Steampipe
+## Query HIBP with SQL
 
-## Query GitLab with SQL
-
-Use SQL to query GitLab. Example:
+Use SQL to query HIBP. Example:
 
 ```sql
-select * from gitlab_project
+select title, breach_date
+from hibp_breach
+where breach_date > CURRENT_DATE - INTERVAL '3 months'
 ```
 
 ## Get Started
 
 ### Installation
 
+Download and install the latest HIBP plugin:
+
 ```shell
-steampipe plugin install theapsgroup/gitlab
+#TODO:  How to list on Hub?
 ```
 
 Or if you prefer, you can clone this repository and build/install from source directly.
 
 ```shell
-go build -o steampipe-plugin-gitlab.plugin
+go build -o steampipe-plugin-hibp.plugin
 
-mv steampipe-plugin-gitlab.plugin ~/.steampipe/plugins/hub.steampipe.io/plugins/theapsgroup/gitlab@latest/steampipe-plugin-gitlab.plugin
+mv steampipe-plugin-hibp.plugin ~/.steampipe/plugins/hub.steampipe.io/plugins/wedtm/hibp@latest/steampipe-plugin-hibp.plugin
 
-cp config/gitlab.spc ~/.steampipe/config/gitlab.spc
+cp config/hibp.spc ~/.steampipe/config/hibp.spc
 ```
 
-Configuration is preferably done by ensuring you have the following Environment Variables set:
+Most of HIBP API's are public, but if you wish to search by account or passwords, you'll need an API key. It can be set in the following ways:
 
-- `GITLAB_ADDR` for the address of your GitLab API endpoint (e.g `https://gitlab.mycompany.com/api/v4`)
-- `GITLAB_TOKEN` for the API token used to access GitLab (private or [personal access](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html) tokens accepted)
+- HIBP_API_KEY Environment Variable
 
 These can also be set in the configuration file:
-`vi ~/.steampipe/config/gitlab.spc` 
-
-## Documentation
-
-Further documentation can he [found here](https://github.com/theapsgroup/steampipe-plugin-gitlab/blob/main/docs/index.md)
+`vi ~/.steampipe/config/hibp.spc`
 
 ## Credits
 
-GitLab API Wrapper [xanzy/go-gitlab](https://github.com/xanzy/go-gitlab) (licensed separately using this [Apache License](https://github.com/xanzy/go-gitlab/blob/master/LICENSE))
+Heavily inspired by [theapsgroup/steampipe-plugin-gitlab](https://github.com/theapsgroup/steampipe-plugin-gitlab)
