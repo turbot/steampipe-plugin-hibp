@@ -19,11 +19,11 @@ func tablePaste() *plugin.Table {
 		},
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("account"),
-			Hydrate:    getPaste,
+			Hydrate:    listPastes,
 		},
 		Columns: []*plugin.Column{
 
-			{Name: "account", Type: proto.ColumnType_STRING, Description: "The email account that was found in the paste (this field is required).", Transform: transform.FromField("account")},
+			{Name: "account", Type: proto.ColumnType_STRING, Description: "The email account that was found in the paste (this field is required).", Transform: transform.FromValue(), Hydrate: queryAccount},
 			{Name: "source", Type: proto.ColumnType_STRING, Description: "The paste service the record was retrieved from. Current values are: Pastebin, Pastie, Slexy, Ghostbin, QuickLeak, JustPaste, AdHocUrl, PermanentOptOut, OptOut"},
 			{Name: "id", Type: proto.ColumnType_STRING, Description: "The ID of the paste as it was given at the source service. Combined with the 'source' attribute, this can be used to resolve the URL of the paste."},
 			{Name: "title", Type: proto.ColumnType_STRING, Description: "The title of the paste as observed on the source site. This may be null and if so will be omitted from the response."},
@@ -68,4 +68,10 @@ func getPaste(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (
 	}
 
 	return pastes, nil
+}
+
+func queryAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	quals := d.KeyColumnQuals
+	q := quals["account"].GetStringValue()
+	return q, nil
 }
