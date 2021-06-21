@@ -2,9 +2,11 @@ package hibp
 
 import (
 	"context"
+	"log"
 
 	"github.com/turbot/steampipe-plugin-sdk/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/plugin/transform"
 	"gitlab.com/wedtm/go-hibp"
 )
 
@@ -16,10 +18,11 @@ func tableBreach() *plugin.Table {
 			Hydrate: listBreaches,
 		},
 		Get: &plugin.GetConfig{
-			KeyColumns: plugin.AnyColumn([]string{"name", "breach_date"}),
+			KeyColumns: plugin.AnyColumn([]string{"name", "account"}),
 			Hydrate:    getBreach,
 		},
 		Columns: []*plugin.Column{
+			{Name: "account", Type: proto.ColumnType_STRING, Description: "The email account that was found in the paste (this field is required).", Transform: transform.FromValue(), Hydrate: getAccountBreaches},
 			{Name: "name", Type: proto.ColumnType_STRING, Description: "A Pascal-cased name representing the breach which is unique across all other breaches. This value never changes and may be used to name dependent assets (such as images) but should not be shown directly to end users (see the 'title' field instead)."},
 			{Name: "title", Type: proto.ColumnType_STRING, Description: "A descriptive title for the breach suitable for displaying to end users. It's unique across all breaches but individual values may change in the future (i.e. if another breach occurs against an organisation already in the system). If a stable value is required to reference the breach, refer to the 'name' field instead."},
 			{Name: "domain", Type: proto.ColumnType_STRING, Description: "The domain of the primary website the breach occurred on. This may be used for identifying other assets external systems may have for the site."},
@@ -60,17 +63,47 @@ func listBreaches(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateDat
 
 func getBreach(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
 	client, err := hibp.NewClient(*GetConfig(d.Connection).ApiKey, nil)
+
+	if err != nil {
+		return nil, err
+	}
+
 	quals := d.KeyColumnQuals
 	name := quals["name"].GetStringValue()
-	if err != nil {
-		return nil, err
-	}
 
-	breach, _, err := client.Breaches.GetBreach(name)
+	breaches, _, err := client.Breaches.GetBreach(name)
 
 	if err != nil {
 		return nil, err
 	}
 
-	return breach, nil
+	if err != nil {
+		return nil, err
+	}
+
+	return breaches, nil
+}
+
+func getAccountBreaches(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
+	client, err := hibp.NewClient(*GetConfig(d.Connection).ApiKey, nil)
+
+	if err != nil {
+		return nil, err
+	}
+
+	quals := d.KeyColumnQuals
+	account := quals["account"].GetStringValue()
+
+	if account == "" {
+		return nil, nil
+	}
+
+	breaches, _, err := client.Breaches.ByAccount(account)
+
+	log.Printf("%v", breaches)
+	if err != nil {
+		return nil, err
+	}
+
+	return breaches, nil
 }
