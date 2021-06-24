@@ -17,7 +17,7 @@ where breach_date > CURRENT_DATE - INTERVAL '3 months'
 Download and install the latest HIBP plugin:
 
 ```shell
-#TODO:  How to list on Hub?
+steampipe plugin install wedtm/hibp
 ```
 
 Or if you prefer, you can clone this repository and build/install from source directly.
