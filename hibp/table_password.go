@@ -88,10 +88,9 @@ func listPasswords(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateDa
 
 	quals := d.KeyColumnQuals
 
-	prefix := quals["prefix"].GetStringValue()[:5]
-
-	if quals["hash"].GetStringValue() != "" {
-		prefix = quals["hash"].GetStringValue()[:5]
+	prefix := quals["hash"].GetStringValue()
+	if prefix == "" {
+		prefix = quals["prefix"].GetStringValue()
 	}
 
 	passwords, _, err := client.Passwords.GetPasswordsBySHA1Prefix(prefix)
