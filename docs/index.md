@@ -57,7 +57,10 @@ where
 
 ## Documentation
 
-- [hibp_breach](./hipb_breach.md)
+- [hibp_account](/docs/tables/hipb_account.md)
+- [hibp_breach](/docs/tables/hipb_breach.md)
+- [hibp_password](/docs/tables/hipb_password.md)
+- [hibp_paste](/docs/tables/hipb_paste.md)
 
 ## Get started
 
@@ -66,7 +69,7 @@ where
 Download and install the latest HIBP plugin:
 
 ```shell
-#TODO:  How to list on Hub?
+steampipe plugin install wedtm/hibp
 ```
 
 Or if you prefer, you can clone this repository and build/install from source directly.
@@ -84,8 +87,8 @@ cp config/hibp.spc ~/.steampipe/config/hibp.spc
 Installing the latest HIBP plugin will create a config file (`~/.steampipe/config/hibp.spc`) with a single connection named `wedtm/hibp`:
 
 ```hcl
-connection "wedtm/hibp" {
-  plugin     = "hibp"
+connection "hibp" {
+  plugin     = "wedtm/hibp"
   apikey     = "use-it-if-you-got-it"
 }
 ```

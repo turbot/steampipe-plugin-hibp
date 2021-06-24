@@ -1,21 +1,12 @@
-# Table: hibp_breach
+# Table: hibp_paste
 
-Breaches indexed and catalogued by HIBP.
+Pastes indexed by HIBP.
 
 ## Examples
 
-### Breaches from the last 3 months
+### Pastes where test@test.org was included in the paste
 
 ```sql
-select title, breach_date
-from hibp_breach
-where breach_date > CURRENT_DATE - INTERVAL '3 months'
-```
-
-### Unverified breaches
-
-```sql
-select title, pwn_count as size, breach_date
-from hibp_breach
-where is_verified = false
+select * from hibp_paste
+ where account = 'test@test.org'
 ```
