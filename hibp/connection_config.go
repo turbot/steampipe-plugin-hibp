@@ -6,11 +6,11 @@ import (
 )
 
 type HibpConfig struct {
-	ApiKey *string `cty:"apikey"`
+	ApiKey *string `cty:"api_key"`
 }
 
 var ConfigSchema = map[string]*schema.Attribute{
-	"apikey": {
+	"api_key": {
 		Type: schema.TypeString,
 	},
 }

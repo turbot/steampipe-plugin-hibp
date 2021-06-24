@@ -1,4 +1,4 @@
 connection "hibp" {
-  plugin = "hibp"
-  apiKey = "replace-me-with-your-own-key"
+  plugin = "wedtm/hibp"
+  api_key = "replace-me-with-your-own-key"
 }
