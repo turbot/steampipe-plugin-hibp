@@ -77,10 +77,6 @@ func getBreach(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) 
 		return nil, err
 	}
 
-	if err != nil {
-		return nil, err
-	}
-
 	return breaches, nil
 }
 
