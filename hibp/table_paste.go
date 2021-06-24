@@ -13,15 +13,15 @@ func tablePaste() *plugin.Table {
 	return &plugin.Table{
 		Name:        "hibp_paste",
 		Description: "Pastes tracked by HIBP",
-		Get: &plugin.GetConfig{
+		List: &plugin.ListConfig{
 			KeyColumns: plugin.SingleColumn("account"),
-			Hydrate:    getPastes,
+			Hydrate:    listPastes,
 		},
 		Columns: []*plugin.Column{
 
 			{Name: "account", Type: proto.ColumnType_STRING, Description: "The email account that was found in the paste (this field is required).", Transform: transform.FromQual("account")},
 			{Name: "source", Type: proto.ColumnType_STRING, Description: "The paste service the record was retrieved from. Current values are: Pastebin, Pastie, Slexy, Ghostbin, QuickLeak, JustPaste, AdHocUrl, PermanentOptOut, OptOut"},
-			{Name: "id", Type: proto.ColumnType_STRING, Description: "The ID of the paste as it was given at the source service. Combined with the 'source' attribute, this can be used to resolve the URL of the paste."},
+			{Name: "id", Type: proto.ColumnType_STRING, Description: "The ID of the paste as it was given at the source service. Combined with the 'source' attribute, this can be used to resolve the URL of the paste.", Transform: transform.FromField("Id")},
 			{Name: "title", Type: proto.ColumnType_STRING, Description: "The title of the paste as observed on the source site. This may be null and if so will be omitted from the response."},
 			{Name: "date", Type: proto.ColumnType_TIMESTAMP, Description: "The date and time that the paste was posted. This is taken directly from the paste site when this information is available but may be null if no date is published.."},
 			{Name: "email_count", Type: proto.ColumnType_INT, Description: "The number of emails that were found when processing the paste."},
@@ -29,7 +29,7 @@ func tablePaste() *plugin.Table {
 	}
 }
 
-func getPastes(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
+func listPastes(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
 	client, err := hibp.NewClient(*GetConfig(d.Connection).ApiKey, nil)
 
 	if err != nil {
@@ -44,5 +44,9 @@ func getPastes(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) 
 		return nil, err
 	}
 
-	return pastes, nil
+	for _, paste := range pastes {
+		d.StreamListItem(ctx, paste)
+	}
+
+	return nil, nil
 }
