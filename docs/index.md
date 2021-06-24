@@ -57,10 +57,10 @@ where
 
 ## Documentation
 
-- [hibp_account](/docs/tables/hipb_account.md)
-- [hibp_breach](/docs/tables/hipb_breach.md)
-- [hibp_password](/docs/tables/hipb_password.md)
-- [hibp_paste](/docs/tables/hipb_paste.md)
+- [hibp_account](/docs/tables/hibp_account.md)
+- [hibp_breach](/docs/tables/hibp_breach.md)
+- [hibp_password](/docs/tables/hibp_password.md)
+- [hibp_paste](/docs/tables/hibp_paste.md)
 
 ## Get started
 
