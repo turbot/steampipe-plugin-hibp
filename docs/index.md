@@ -89,7 +89,7 @@ Installing the latest HIBP plugin will create a config file (`~/.steampipe/confi
 ```hcl
 connection "hibp" {
   plugin     = "wedtm/hibp"
-  apikey     = "use-it-if-you-got-it"
+  api_key     = "use-it-if-you-got-it"
 }
 ```
 
