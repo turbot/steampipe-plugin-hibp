@@ -72,19 +72,19 @@ Download and install the latest HIBP plugin:
 steampipe plugin install wedtm/hibp
 ```
 
-Or if you prefer, you can clone this repository and build/install from source directly.
+If you are of the untrusting variety, you can also download this repository, build, and then install all on your own. You'll
+need to make sure you have a proper Go environment setup.
 
 ```shell
+git clone https://gitlab.com/wedtm/steampipe-plugin-hibp steampipe-plugin-hibp && cd steampipe-plugin-hibp
 go build -o steampipe-plugin-hibp.plugin
-
 mv steampipe-plugin-hibp.plugin ~/.steampipe/plugins/hub.steampipe.io/plugins/wedtm/hibp@latest/steampipe-plugin-hibp.plugin
-
 cp config/hibp.spc ~/.steampipe/config/hibp.spc
 ```
 
 ### Configuration
 
-Installing the latest HIBP plugin will create a config file (`~/.steampipe/config/hibp.spc`) with a single connection named `wedtm/hibp`:
+Installing the latest HIBP plugin will create a config file (`~/.steampipe/config/hibp.spc`) with a single connection named `hibp`:
 
 ```hcl
 connection "hibp" {

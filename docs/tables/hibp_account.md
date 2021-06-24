@@ -1,7 +1,9 @@
 # Table: hibp_account
 
-Breaches indexed and catalogued by HIBP filtered by account compromised.
-Account can either be an email address or a phone number.
+This table returns data similar to the `hibp_breach` table, with the requirement of an `account` field.
+
+While the `hibp_breaches` table will return all of the known breaches, there are millions of accounts associated with those
+breaches. To find the breaches associated with a certain account, you must use this table.
 
 ## Examples
 
