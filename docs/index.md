@@ -1,8 +1,8 @@
 ---
 organization: wedtm
 category: ["internet"]
-icon_url: "/tbd
-brand_color: "#55CC44"
+icon_url: "/images/plugins/wedtm/hibp.svg"
+brand_color: "#3A9AC4"
 display_name: Security
 name: hibp
 description: Steampipe plugin to query Have I Been Pwned breaches, pastes, and passwords
