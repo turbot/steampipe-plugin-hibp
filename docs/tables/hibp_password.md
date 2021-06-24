@@ -2,6 +2,8 @@
 
 Passwords indexed by HIBP.
 
+You must include at _least_ 5 characters in the `prefix` field.
+
 ## Examples
 
 ### Show the number of times this password has been compromised
