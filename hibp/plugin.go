@@ -19,6 +19,7 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 			"hibp_breach":   tableBreach(),
 			"hibp_paste":    tablePaste(),
 			"hibp_password": tablePassword(),
+			"hibp_account":  tableAccount(),
 		},
 	}
 
