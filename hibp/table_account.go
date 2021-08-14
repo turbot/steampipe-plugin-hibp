@@ -17,10 +17,6 @@ func tableAccount() *plugin.Table {
 			KeyColumns: plugin.SingleColumn("account"),
 			Hydrate:    listBreachedAccounts,
 		},
-		Get: &plugin.GetConfig{
-			KeyColumns: plugin.SingleColumn("name"),
-			Hydrate:    getBreach,
-		},
 		Columns: append(breachColumns(), &plugin.Column{
 			Name:        "account",
 			Type:        proto.ColumnType_STRING,
@@ -45,9 +41,9 @@ func listBreachedAccounts(ctx context.Context, d *plugin.QueryData, h *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
-
 	for _, breach := range breaches {
 		d.StreamListItem(ctx, breach)
 	}
+
 	return nil, nil
 }

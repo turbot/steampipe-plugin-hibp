@@ -63,9 +63,10 @@ func listBreaches(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateDat
 }
 
 func getBreach(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
+	logger := plugin.Logger(ctx)
 	client, err := hibp.NewClient(*GetConfig(d.Connection).ApiKey, nil)
-
 	if err != nil {
+		logger.Info("first", err)
 		return nil, err
 	}
 
@@ -74,6 +75,7 @@ func getBreach(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) 
 
 	breaches, _, err := client.Breaches.GetBreach(name)
 	if err != nil {
+		logger.Info("second", breaches)
 		return nil, err
 	}
 
