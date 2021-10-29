@@ -3,6 +3,7 @@ package hibp
 import (
 	"context"
 
+	"github.com/turbot/steampipe-plugin-sdk/grpc"
 	"github.com/turbot/steampipe-plugin-sdk/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/plugin/transform"
@@ -24,6 +25,7 @@ func tablePassword() *plugin.Table {
 		Columns: []*plugin.Column{
 			{Name: "prefix", Type: proto.ColumnType_STRING, Description: "The first five characters of the hash", Transform: transform.From(prefixValue)},
 			{Name: "hash", Type: proto.ColumnType_STRING, Description: "The hash of the compromised password.", Transform: transform.From(hashValue)},
+			{Name: "hash", Type: proto.ColumnType_STRING, Description: "The hash of the compromised password.", Transform: transform.FromQual("hashValue")},
 			{Name: "count", Type: proto.ColumnType_INT, Description: "The total number of times this password has been found compromised."},
 		},
 	}
@@ -76,25 +78,26 @@ func getPassword(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData
 
 func hashValue(ctx context.Context, d *transform.TransformData) (interface{}, error) {
 	pw := d.HydrateItem.(*hibp.PasswordMatch)
-	var hash string
-	hashQualValue := d.KeyColumnQuals["hash"]
-	if hashQualValue != nil {
-		hash = hashQualValue.(string)
-		return hash, nil
+	columnQuals := d.KeyColumnQuals["hash"]
+	if len(columnQuals) == 0 {
+		return nil, nil
 	}
-
-	return pw.Hash, nil
+	if !columnQuals.SingleEqualsQual() {
+		return pw.Hash, nil
+	}
+	qualValue := grpc.GetQualValue(columnQuals[0].Value)
+	return qualValue, nil
 }
 
 func prefixValue(ctx context.Context, d *transform.TransformData) (interface{}, error) {
 	pw := d.HydrateItem.(*hibp.PasswordMatch)
-	var prefix string
-	hashQualValue := d.KeyColumnQuals["prefix"]
-	if hashQualValue != nil {
-		prefix = hashQualValue.(string)
-		return prefix, nil
+	columnQuals := d.KeyColumnQuals["prefix"]
+	if len(columnQuals) == 0 {
+		return nil, nil
 	}
-
-	prefix = pw.Hash[:5]
-	return prefix, nil
+	if !columnQuals.SingleEqualsQual() {
+		return pw.Hash[:5], nil
+	}
+	qualValue := (grpc.GetQualValue(columnQuals[0].Value))
+	return qualValue, nil
 }
