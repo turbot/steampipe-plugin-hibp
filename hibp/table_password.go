@@ -18,10 +18,10 @@ func tablePassword() *plugin.Table {
 			KeyColumns: plugin.AnyColumn([]string{"prefix", "hash"}),
 			Hydrate:    listPasswords,
 		},
-		Get: &plugin.GetConfig{
-			KeyColumns: plugin.SingleColumn("hash"),
-			Hydrate:    getPassword,
-		},
+		// Get: &plugin.GetConfig{
+		// 	KeyColumns: plugin.SingleColumn("hash"),
+		// 	Hydrate:    getPassword,
+		// },
 		Columns: []*plugin.Column{
 			{Name: "prefix", Type: proto.ColumnType_STRING, Description: "The first five characters of the hash", Transform: transform.From(prefixValue)},
 			{Name: "hash", Type: proto.ColumnType_STRING, Description: "The hash of the compromised password.", Transform: transform.From(hashValue)},

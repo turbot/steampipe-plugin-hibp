@@ -11,7 +11,7 @@ breaches. To find the breaches associated with a certain account, you must use t
 
 ```sql
 select title, breach_date
-from hibp_breach
+from hibp_account
 where breach_date > CURRENT_DATE - INTERVAL '3 months'
 and account = 'account-exists@hibp-integration-tests.com'
 ```
@@ -20,7 +20,7 @@ and account = 'account-exists@hibp-integration-tests.com'
 
 ```sql
 select title, pwn_count as size, breach_date
-from hibp_breach
+from hibp_account
 where is_verified = false
 and account = 'account-exists@hibp-integration-tests.com'
 ```

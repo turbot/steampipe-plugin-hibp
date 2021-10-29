@@ -7,6 +7,10 @@ Pastes indexed by HIBP.
 ### Pastes where test@test.org was included in the paste
 
 ```sql
-select * from hibp_paste
- where account = 'test@test.org'
+select
+  *
+from
+  hibp_paste
+where
+  account = 'test@test.org';
 ```
