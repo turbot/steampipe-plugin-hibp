@@ -22,80 +22,30 @@ func tablePassword() *plugin.Table {
 			Hydrate:    getPassword,
 		},
 		Columns: []*plugin.Column{
-			{Name: "prefix", Type: proto.ColumnType_STRING, Description: "The first five characters of the hash", Transform: transform.From(transformPrefix), Hydrate: hydratePrefix},
-			{Name: "hash", Type: proto.ColumnType_STRING, Description: "The hash of the compromised password.", Transform: transform.From(transformHash), Hydrate: hydrateHash},
+			{Name: "prefix", Type: proto.ColumnType_STRING, Description: "The first five characters of the hash", Transform: transform.From(prefixValue)},
+			{Name: "hash", Type: proto.ColumnType_STRING, Description: "The hash of the compromised password.", Transform: transform.From(hashValue)},
 			{Name: "count", Type: proto.ColumnType_INT, Description: "The total number of times this password has been found compromised."},
 		},
 	}
 }
 
-func transformHash(ctx context.Context, t *transform.TransformData) (interface{}, error) {
-	pw := t.HydrateItem.(string)
-	plugin.Logger(ctx).Warn("transformHash", "quals", t.KeyColumnQuals, "pw", pw)
-	if val, ok := t.KeyColumnQuals["prefix"]; ok {
-		plugin.Logger(ctx).Warn("transformHash", "qual", val)
-		return val.(string) + pw, nil
-	}
-
-	if val, ok := t.KeyColumnQuals["hash"]; ok {
-		plugin.Logger(ctx).Warn("transformHash", "qual", val)
-		return val.(string), nil
-	}
-	return nil, nil
-}
-
-func transformPrefix(ctx context.Context, t *transform.TransformData) (interface{}, error) {
-	plugin.Logger(ctx).Warn("transformPrefix", "quals", t.KeyColumnQuals)
-	if val, ok := t.KeyColumnQuals["prefix"]; ok {
-		plugin.Logger(ctx).Warn("transformPrefix", "qual", val)
-		return val.(string), nil
-	}
-
-	if val, ok := t.KeyColumnQuals["hash"]; ok {
-		plugin.Logger(ctx).Warn("transformPrefix", "qual", val)
-		return val.(string)[:5], nil
-	}
-	return nil, nil
-}
-
-func hydratePrefix(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
-	value := d.KeyColumnQuals["hash"].GetStringValue()
-	if value == "" {
-		value = d.KeyColumnQuals["prefix"].GetStringValue()
-	}
-	plugin.Logger(ctx).Warn("hydratePrefix", "value", value)
-	return value[:5], nil
-}
-
-func hydrateHash(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
-	pw := h.Item.(*hibp.PasswordMatch)
-	quals := d.KeyColumnQuals
-	queryHash := pw.Hash
-	if queryHash == "" {
-		queryHash = quals["prefix"].GetStringValue()
-	}
-	result := queryHash[:5] + pw.Hash
-	plugin.Logger(ctx).Warn("hydrateHash", "pw", pw, "result", result)
-	return result, nil
-}
+//// HYDRATE FUNCTIONS
 
 func listPasswords(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
 	client, err := hibp.NewClient(*GetConfig(d.Connection).ApiKey, nil)
-
 	if err != nil {
+		plugin.Logger(ctx).Error("hibp_password.listPasswords", "client.error", err)
 		return nil, err
 	}
 
-	quals := d.KeyColumnQuals
-
-	prefix := quals["hash"].GetStringValue()
+	prefix := d.KeyColumnQuals["hash"].GetStringValue()
 	if prefix == "" {
-		prefix = quals["prefix"].GetStringValue()
+		prefix = d.KeyColumnQuals["prefix"].GetStringValue()
 	}
 
 	passwords, _, err := client.Passwords.GetPasswordsBySHA1Prefix(prefix)
-
 	if err != nil {
+		plugin.Logger(ctx).Error("hibp_password.listPasswords", "api.error", err)
 		return nil, err
 	}
 
@@ -107,20 +57,44 @@ func listPasswords(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateDa
 
 func getPassword(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
 	client, err := hibp.NewClient(*GetConfig(d.Connection).ApiKey, nil)
-
 	if err != nil {
-		panic(err)
+		plugin.Logger(ctx).Error("hibp_password.getPassword", "client.error", err)
+		return nil, err
 	}
 
-	quals := d.KeyColumnQuals
-
-	hash := quals["hash"].GetStringValue()
-
+	hash := d.KeyColumnQuals["hash"].GetStringValue()
 	pwMatch, _, err := client.Passwords.GetExactPasswordBySHA1(hash)
-
 	if err != nil {
-		panic(err)
+		plugin.Logger(ctx).Error("hibp_password.getPassword", "api.error", err)
+		return nil, err
 	}
 
 	return pwMatch, nil
+}
+
+//// TRANSFORM FUNCTIONS
+
+func hashValue(ctx context.Context, d *transform.TransformData) (interface{}, error) {
+	pw := d.HydrateItem.(*hibp.PasswordMatch)
+	var hash string
+	hashQualValue := d.KeyColumnQuals["hash"]
+	if hashQualValue != nil {
+		hash = hashQualValue.(string)
+		return hash, nil
+	}
+
+	return pw.Hash, nil
+}
+
+func prefixValue(ctx context.Context, d *transform.TransformData) (interface{}, error) {
+	pw := d.HydrateItem.(*hibp.PasswordMatch)
+	var prefix string
+	hashQualValue := d.KeyColumnQuals["prefix"]
+	if hashQualValue != nil {
+		prefix = hashQualValue.(string)
+		return prefix, nil
+	}
+
+	prefix = pw.Hash[:5]
+	return prefix, nil
 }

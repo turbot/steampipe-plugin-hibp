@@ -32,17 +32,15 @@ func tableAccount() *plugin.Table {
 
 func listBreachedAccounts(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
 	client, err := hibp.NewClient(*GetConfig(d.Connection).ApiKey, nil)
-
 	if err != nil {
+		plugin.Logger(ctx).Error("hibp_account.listBreachedAccounts", "client.error", err)
 		return nil, err
 	}
 
-	quals := d.KeyColumnQuals
-	account := quals["account"].GetStringValue()
-
+	account := d.KeyColumnQuals["account"].GetStringValue()
 	breaches, _, err := client.Breaches.ByAccount(account)
-
 	if err != nil {
+		plugin.Logger(ctx).Error("hibp_account.listBreachedAccounts", "api.error", err)
 		return nil, err
 	}
 

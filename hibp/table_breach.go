@@ -8,6 +8,21 @@ import (
 	"gitlab.com/wedtm/go-hibp"
 )
 
+func tableBreach() *plugin.Table {
+	return &plugin.Table{
+		Name:        "hibp_breach",
+		Description: "Breaches tracked by HIBP",
+		List: &plugin.ListConfig{
+			Hydrate: listBreaches,
+		},
+		Get: &plugin.GetConfig{
+			KeyColumns: plugin.SingleColumn("name"),
+			Hydrate:    getBreach,
+		},
+		Columns: breachColumns(),
+	}
+}
+
 func breachColumns() []*plugin.Column {
 	return []*plugin.Column{
 		{Name: "name", Type: proto.ColumnType_STRING, Description: "A Pascal-cased name representing the breach which is unique across all other breaches. This value never changes and may be used to name dependent assets (such as images) but should not be shown directly to end users (see the 'title' field instead)."},
@@ -28,31 +43,16 @@ func breachColumns() []*plugin.Column {
 	}
 }
 
-func tableBreach() *plugin.Table {
-	return &plugin.Table{
-		Name:        "hibp_breach",
-		Description: "Breaches tracked by HIBP",
-		List: &plugin.ListConfig{
-			Hydrate: listBreaches,
-		},
-		Get: &plugin.GetConfig{
-			KeyColumns: plugin.SingleColumn("name"),
-			Hydrate:    getBreach,
-		},
-		Columns: breachColumns(),
-	}
-}
-
 func listBreaches(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
 	client, err := hibp.NewClient(*GetConfig(d.Connection).ApiKey, nil)
-
 	if err != nil {
+		plugin.Logger(ctx).Error("hibp_breach.listBreaches", "client.error", err)
 		return nil, err
 	}
 
 	breaches, _, err := client.Breaches.ListBreaches()
-
 	if err != nil {
+		plugin.Logger(ctx).Error("hibp_breach.listBreaches", "api.error", err)
 		return nil, err
 	}
 
@@ -64,16 +64,15 @@ func listBreaches(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateDat
 
 func getBreach(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
 	client, err := hibp.NewClient(*GetConfig(d.Connection).ApiKey, nil)
-
 	if err != nil {
+		plugin.Logger(ctx).Error("hibp_breach.getBreach", "client.error", err)
 		return nil, err
 	}
 
-	quals := d.KeyColumnQuals
-	name := quals["name"].GetStringValue()
-
+	name := d.KeyColumnQuals["name"].GetStringValue()
 	breaches, _, err := client.Breaches.GetBreach(name)
 	if err != nil {
+		plugin.Logger(ctx).Error("hibp_breach.getBreach", "api.error", err)
 		return nil, err
 	}
 

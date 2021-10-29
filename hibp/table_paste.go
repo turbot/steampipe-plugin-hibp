@@ -31,16 +31,15 @@ func tablePaste() *plugin.Table {
 
 func listPastes(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
 	client, err := hibp.NewClient(*GetConfig(d.Connection).ApiKey, nil)
-
 	if err != nil {
+		plugin.Logger(ctx).Error("hibp_paste.listBreaches", "client.error", err)
 		return nil, err
 	}
 
-	quals := d.KeyColumnQuals
-	pastes, _, err := client.Pastes.GetPastesByAccount(quals["account"].GetStringValue())
-	plugin.Logger(ctx).Warn("getPaste", "pastes", pastes, "pastesLen", len(pastes), "qualAccount", quals["account"].GetStringValue())
+	account := d.KeyColumnQuals["account"].GetStringValue()
+	pastes, _, err := client.Pastes.GetPastesByAccount(account)
 	if err != nil {
-		plugin.Logger(ctx).Warn("getPaste", "err", err, "pastes", pastes)
+		plugin.Logger(ctx).Error("hibp_paste.listBreaches", "api.error", err)
 		return nil, err
 	}
 
