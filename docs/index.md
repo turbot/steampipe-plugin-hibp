@@ -1,7 +1,7 @@
 ---
-organization: wedtm
+organization: turbot
 category: ["internet"]
-icon_url: "/images/plugins/wedtm/hibp.svg"
+icon_url: "/images/plugins/turbot/hibp.svg"
 brand_color: "#3A9AC4"
 display_name: Security
 name: hibp
@@ -28,39 +28,21 @@ from
   hibp_breach
 where
   breach_date > '2020-01-01'
+order by
+  breach_date limit 5
 ```
 
 ```
-+------------------+-------------------+----------+---------------------+
-| name             | compromised_count | verified | breach_date         |
-+------------------+-------------------+----------+---------------------+
-| DominosIndia     | 22527655          | true     | 2021-03-24 00:00:00 |
-| Descomplica      | 4845378           | true     | 2021-03-14 00:00:00 |
-| CityBee          | 110156            | true     | 2021-02-05 00:00:00 |
-| DailyQuiz        | 8032404           | true     | 2021-01-13 00:00:00 |
-| CardingMafia     | 297744            | true     | 2021-03-18 00:00:00 |
-| Emotet           | 4324770           | true     | 2021-01-27 00:00:00 |
-| Gab              | 66521             | true     | 2021-02-26 00:00:00 |
-| PhoneHouse       | 5223350           | true     | 2021-04-08 00:00:00 |
-| MangaDex         | 2987329           | true     | 2021-03-22 00:00:00 |
-| NurseryCam       | 10585             | true     | 2021-02-12 00:00:00 |
-| Oxfam            | 1834006           | true     | 2021-01-20 00:00:00 |
-| ParkMobile       | 20949825          | true     | 2021-03-21 00:00:00 |
-| Liker            | 465141            | true     | 2021-03-08 00:00:00 |
-| WedMeGood        | 1306723           | true     | 2021-01-06 00:00:00 |
-| SuperVPNGeckoVPN | 20339937          | true     | 2021-02-25 00:00:00 |
-| Ticketcounter    | 1921722           | true     | 2021-02-22 00:00:00 |
-| WeLeakInfo       | 11788             | true     | 2021-03-08 00:00:00 |
-| Astoria          | 11498146          | false    | 2021-01-26 00:00:00 |
-+------------------+-------------------+----------+---------------------+
++-------------+-------------------+----------+----------------------+
+| name        | compromised_count | verified | breach_date          |
++-------------+-------------------+----------+----------------------+
+| HTCMania    | 1488089           | true     | 2020-01-04T00:00:00Z |
+| MobiFriends | 3512952           | true     | 2020-01-06T00:00:00Z |
+| Zoosk2020   | 23927853          | true     | 2020-01-12T00:00:00Z |
+| Mathway     | 25692862          | true     | 2020-01-13T00:00:00Z |
+| MeetMindful | 1422717           | true     | 2020-01-26T00:00:00Z |
++-------------+-------------------+----------+----------------------+
 ```
-
-## Documentation
-
-- [hibp_account](/docs/tables/hibp_account.md)
-- [hibp_breach](/docs/tables/hibp_breach.md)
-- [hibp_password](/docs/tables/hibp_password.md)
-- [hibp_paste](/docs/tables/hibp_paste.md)
 
 ## Get started
 
@@ -69,17 +51,7 @@ where
 Download and install the latest HIBP plugin:
 
 ```shell
-steampipe plugin install wedtm/hibp
-```
-
-If you are of the untrusting variety, you can also download this repository, build, and then install all on your own. You'll
-need to make sure you have a proper Go environment setup.
-
-```shell
-git clone https://gitlab.com/wedtm/steampipe-plugin-hibp steampipe-plugin-hibp && cd steampipe-plugin-hibp
-go build -o steampipe-plugin-hibp.plugin
-mv steampipe-plugin-hibp.plugin ~/.steampipe/plugins/hub.steampipe.io/plugins/wedtm/hibp@latest/steampipe-plugin-hibp.plugin
-cp config/hibp.spc ~/.steampipe/config/hibp.spc
+steampipe plugin install hibp
 ```
 
 ### Configuration
@@ -88,12 +60,14 @@ Installing the latest HIBP plugin will create a config file (`~/.steampipe/confi
 
 ```hcl
 connection "hibp" {
-  plugin     = "wedtm/hibp"
+  plugin     = "hibp"
   api_key     = "use-it-if-you-got-it"
 }
 ```
 
-## Get involved
+- `api_key` (required) - Making calls to the HIBP API requires a key. [Get API key](https://haveibeenpwned.com/API/Key)
 
-- Open source: https://gitlab.com/wedtm/steampipe-plugin-hibp
-- Community: [Discussion forums](https://github.com/turbot/steampipe/discussions)
+## Get Involved
+
+- Open source: https://github.com/turbot/steampipe-plugin-aws
+- Community: [Slack Channel](https://steampipe.io/community/join)

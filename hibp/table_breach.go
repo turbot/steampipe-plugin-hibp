@@ -3,9 +3,9 @@ package hibp
 import (
 	"context"
 
+	"github.com/turbot/hibp-go"
 	"github.com/turbot/steampipe-plugin-sdk/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/plugin"
-	"gitlab.com/wedtm/go-hibp"
 )
 
 func tableBreach() *plugin.Table {

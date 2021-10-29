@@ -124,6 +124,8 @@ github.com/tkrajina/go-reflector v0.5.4 h1:dS9aJEa/eYNQU/fwsb5CSiATOxcNyA/gG/A7a
 github.com/tkrajina/go-reflector v0.5.4/go.mod h1:9PyLgEOzc78ey/JmQQHbW8cQJ1oucLlNQsg8yFvkVk8=
 github.com/turbot/go-kit v0.3.0 h1:o4zZIO1ovdmJ2bHWOdXnnt8jJMIDGqYSkZvBREzFeMQ=
 github.com/turbot/go-kit v0.3.0/go.mod h1:SBdPRngbEfYubiR81iAVtO43oPkg1+ASr+XxvgbH7/k=
+github.com/turbot/hibp-go v0.0.0-20211029093634-72b2d50b0a6c h1:vLohpJcpNXHxgBlEYuDS7pL3JFyDcZO/RiRvEFguokE=
+github.com/turbot/hibp-go v0.0.0-20211029093634-72b2d50b0a6c/go.mod h1:K0T/WA60NPpqRkJT9PcKANhd0v7UbTzVSAjEguhkIXc=
 github.com/turbot/steampipe-plugin-sdk v1.7.0 h1:84OFfUoxgMXHb51tPMtkabnIuADw3hAA07Ye4+dTAFY=
 github.com/turbot/steampipe-plugin-sdk v1.7.0/go.mod h1:y7q8abyaXXQNzwE9l4Tn/gkEnvmcyPpyedpHF04wggs=
 github.com/vmihailenco/msgpack v3.3.3+incompatible/go.mod h1:fy3FlTQTDXWkZ7Bh6AcGMlsjHatGryHQYUTf1ShIgkk=
@@ -134,8 +136,6 @@ github.com/zclconf/go-cty v1.8.0/go.mod h1:vVKLxnk3puL4qRAv72AO+W99LUD4da90g3uUA
 github.com/zclconf/go-cty v1.8.2 h1:u+xZfBKgpycDnTNjPhGiTEYZS5qS/Sb5MqSfm7vzcjg=
 github.com/zclconf/go-cty v1.8.2/go.mod h1:vVKLxnk3puL4qRAv72AO+W99LUD4da90g3uUAzyuvAk=
 github.com/zclconf/go-cty-debug v0.0.0-20191215020915-b22d67c1ba0b/go.mod h1:ZRKQfBXbGkpdV6QMzT3rU1kSTAnfu1dO8dPKjYprgj8=
-gitlab.com/wedtm/go-hibp v0.0.0-20211006143435-788b13821a19 h1:QHUVFUWalU57RgqsvFNt4oaEdohsUaJ1m1kKSKunBy0=
-gitlab.com/wedtm/go-hibp v0.0.0-20211006143435-788b13821a19/go.mod h1:st4wDQViUiDKngGm78Qwsf6UU89dPPi3Isa1iiMba7o=
 golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=
 golang.org/x/crypto v0.0.0-20190426145343-a29dc8fdc734/go.mod h1:yigFU9vqHzYiE8UmvKecakEJjdnWj3jj499lnFckfCI=
 golang.org/x/exp v0.0.0-20190121172915-509febef88a4/go.mod h1:CJ0aWSM057203Lf6IL+f9T1iT9GByDxfZKAQTCR3kQA=

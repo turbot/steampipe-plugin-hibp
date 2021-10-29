@@ -3,11 +3,11 @@ package hibp
 import (
 	"context"
 
+	"github.com/turbot/hibp-go"
 	"github.com/turbot/steampipe-plugin-sdk/grpc"
 	"github.com/turbot/steampipe-plugin-sdk/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/plugin/transform"
-	"gitlab.com/wedtm/go-hibp"
 )
 
 func tablePassword() *plugin.Table {
@@ -25,7 +25,6 @@ func tablePassword() *plugin.Table {
 		Columns: []*plugin.Column{
 			{Name: "prefix", Type: proto.ColumnType_STRING, Description: "The first five characters of the hash", Transform: transform.From(prefixValue)},
 			{Name: "hash", Type: proto.ColumnType_STRING, Description: "The hash of the compromised password.", Transform: transform.From(hashValue)},
-			{Name: "hash", Type: proto.ColumnType_STRING, Description: "The hash of the compromised password.", Transform: transform.FromQual("hashValue")},
 			{Name: "count", Type: proto.ColumnType_INT, Description: "The total number of times this password has been found compromised."},
 		},
 	}

@@ -3,10 +3,10 @@ package hibp
 import (
 	"context"
 
+	"github.com/turbot/hibp-go"
 	"github.com/turbot/steampipe-plugin-sdk/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/plugin/transform"
-	"gitlab.com/wedtm/go-hibp"
 )
 
 func tablePaste() *plugin.Table {
