@@ -1,12 +1,12 @@
 ---
 organization: wedtm
-category: ["internet"]
-icon_url: "/images/plugins/wedtm/hibp.svg"
+category: ["Security"]
+icon_url: "/images/plugins/turbot/hibp.svg"
 brand_color: "#3A9AC4"
 display_name: Security
 name: hibp
-description: Steampipe plugin to query Have I Been Pwned breaches, pastes, and passwords
-og_description: Query compromised data with SQL! Open source CLI. No DB required.
+description: Steampipe plugin to query breaches, account breaches, pastes and passwords from [HaveIBeenPwned](https://haveibeenpwned.com/)
+og_description: Query HIBP data with SQL! Open source CLI. No DB required.
 og_image: "TBD"
 ---
 
@@ -14,7 +14,7 @@ og_image: "TBD"
 
 [Steampipe](https://steampipe.io) is an open source CLI to instantly query cloud APIs using SQL.
 
-Compromised accounts and passwords available via [Have I Been Pwned](https://haveibeenpwned.com) (HIBP) along with the breaches that compromised them are searchable.
+[Have I Been Pwned](https://haveibeenpwned.com) (HIBP) is an online searchable index of data breaches where anyone can quickly assess if they may have been put at risk due to an online account of theirs having been compromised or "pwned" in a data breach.
 
 For example:
 
@@ -57,10 +57,7 @@ where
 
 ## Documentation
 
-- [hibp_account](/docs/tables/hibp_account.md)
-- [hibp_breach](/docs/tables/hibp_breach.md)
-- [hibp_password](/docs/tables/hibp_password.md)
-- [hibp_paste](/docs/tables/hibp_paste.md)
+- **[Table definitions & examples →](/plugins/turbot/hibp/tables)**
 
 ## Get started
 
@@ -69,29 +66,24 @@ where
 Download and install the latest HIBP plugin:
 
 ```shell
-steampipe plugin install wedtm/hibp
-```
-
-If you are of the untrusting variety, you can also download this repository, build, and then install all on your own. You'll
-need to make sure you have a proper Go environment setup.
-
-```shell
-git clone https://gitlab.com/wedtm/steampipe-plugin-hibp steampipe-plugin-hibp && cd steampipe-plugin-hibp
-go build -o steampipe-plugin-hibp.plugin
-mv steampipe-plugin-hibp.plugin ~/.steampipe/plugins/hub.steampipe.io/plugins/wedtm/hibp@latest/steampipe-plugin-hibp.plugin
-cp config/hibp.spc ~/.steampipe/config/hibp.spc
+steampipe plugin install hibp
 ```
 
 ### Configuration
 
-Installing the latest HIBP plugin will create a config file (`~/.steampipe/config/hibp.spc`) with a single connection named `hibp`:
+Installing the latest hibp plugin will create a config file (`~/.steampipe/config/hibp.spc`) with a single connection named `hibp`:
 
 ```hcl
 connection "hibp" {
-  plugin     = "wedtm/hibp"
-  api_key     = "use-it-if-you-got-it"
+  plugin  = "hibp"
+
+  # Requests to HIBP API needs to carry an API KEY.
+  # You can get one at https://haveibeenpwned.com/API/Key
+  api_key = "03ef6bfxxxxxxxxxxxxxxx8ad568286b"
 }
 ```
+
+- `api_key` - (required) The API key to access the HIBP API. Can also be set with the `HIBP_API_KEY` environment variable.
 
 ## Get involved
 
