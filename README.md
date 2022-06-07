@@ -1,42 +1,78 @@
-# Have I Been Pwned? plugin for Steampipe
+![image](https://hub.steampipe.io/images/plugins/turbot/hibp-social-graphic.png)
 
-## Query HIBP with SQL
+# HaveIBeenPwned Plugin for Steampipe
 
-Use SQL to query HIBP. Example:
+Use SQL to query breaches, account breaches, pastes and passwords from HaveIBeenPwned.
+
+- **[Get started →](https://hub.steampipe.io/plugins/turbot/hibp)**
+- Documentation: [Table definitions & examples](https://hub.steampipe.io/plugins/turbot/hibp/tables)
+- Community: [Slack Channel](https://steampipe.io/community/join)
+- Get involved: [Issues](https://github.com/turbot/steampipe-plugin-hibp/issues)
+
+## Quick start
+
+Install the plugin with [Steampipe](https://steampipe.io):
+
+```shell
+steampipe plugin install hibp
+```
+
+Run a query:
 
 ```sql
-select title, breach_date
-from hibp_breach
-where breach_date > CURRENT_DATE - INTERVAL '3 months'
+select
+  title,
+  breach_date
+from
+  hibp_breach
+where
+  breach_date > CURRENT_DATE - INTERVAL '3 months'
 ```
 
-## Get Started
+## Developing
 
-### Installation
+Prerequisites:
 
-Download and install the latest HIBP plugin:
+- [Steampipe](https://steampipe.io/downloads)
+- [Golang](https://golang.org/doc/install)
 
-```shell
-steampipe plugin install wedtm/hibp
+Clone:
+
+```sh
+git clone https://github.com/turbot/steampipe-plugin-hibp.git
+cd steampipe-plugin-hibp
 ```
 
-Or if you prefer, you can clone this repository and build/install from source directly.
+Build, which automatically installs the new version to your `~/.steampipe/plugins` directory:
 
-```shell
-go build -o steampipe-plugin-hibp.plugin
-
-mv steampipe-plugin-hibp.plugin ~/.steampipe/plugins/hub.steampipe.io/plugins/wedtm/hibp@latest/steampipe-plugin-hibp.plugin
-
-cp config/hibp.spc ~/.steampipe/config/hibp.spc
+```
+make
 ```
 
-Most of HIBP API's are public, but if you wish to search by account or passwords, you'll need an API key. It can be set in the following ways:
+Configure the plugin:
 
-- HIBP_API_KEY Environment Variable
+```
+cp config/* ~/.steampipe/config
+vi ~/.steampipe/config/hibp.spc
+```
 
-These can also be set in the configuration file:
-`vi ~/.steampipe/config/hibp.spc`
+Try it!
 
-## Credits
+```
+steampipe query
+> .inspect hibp
+```
 
-Heavily inspired by [theapsgroup/steampipe-plugin-gitlab](https://github.com/theapsgroup/steampipe-plugin-gitlab)
+Further reading:
+
+- [Writing plugins](https://steampipe.io/docs/develop/writing-plugins)
+- [Writing your first table](https://steampipe.io/docs/develop/writing-your-first-table)
+
+## Contributing
+
+Please see the [contribution guidelines](https://github.com/turbot/steampipe/blob/main/CONTRIBUTING.md) and our [code of conduct](https://github.com/turbot/steampipe/blob/main/CODE_OF_CONDUCT.md). All contributions are subject to the [Apache 2.0 open source license](https://github.com/turbot/steampipe-plugin-hibp/blob/main/LICENSE).
+
+`help wanted` issues:
+
+- [Steampipe](https://github.com/turbot/steampipe/labels/help%20wanted)
+- [hibp Plugin](https://github.com/turbot/steampipe-plugin-hibp/labels/help%20wanted)
