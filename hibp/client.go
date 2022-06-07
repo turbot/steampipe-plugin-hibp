@@ -17,14 +17,14 @@ func getHibpClient(ctx context.Context, d *plugin.QueryData) (*hibp.Client, erro
 		return cachedData.(*hibp.Client), nil
 	}
 
-	// Get apikey
-	apikey, err := getKeysFromConfig(ctx, d)
+	// Get apiKey
+	apiKey, err := getKeysFromConfig(ctx, d)
 	if err != nil {
 		return nil, err
 	}
 
 	// create the hibp client
-	client := createClient(ctx, apikey)
+	client := createClient(ctx, apiKey)
 
 	// save client in cache
 	d.ConnectionManager.Cache.Set(constants.CacheKeyHibpClient, client)

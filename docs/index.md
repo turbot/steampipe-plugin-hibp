@@ -1,16 +1,16 @@
 ---
-organization: wedtm
-category: ["Security"]
+organization: turbot
+category: ["security"]
 icon_url: "/images/plugins/turbot/hibp.svg"
 brand_color: "#3A9AC4"
-display_name: Security
+display_name: Have I Been Pwned
 name: hibp
-description: Steampipe plugin to query breaches, account breaches, pastes and passwords from [HaveIBeenPwned](https://haveibeenpwned.com/)
+description: Steampipe plugin to query breaches, account breaches, pastes and passwords from Have I Been Pwned.
 og_description: Query HIBP data with SQL! Open source CLI. No DB required.
-og_image: "TBD"
+og_image: "/images/plugins/turbot/hibp-social-graphic.png"
 ---
 
-# HaveIBeenPwned? + Steampipe
+# Have I Been Pwned? + Steampipe
 
 [Steampipe](https://steampipe.io) is an open source CLI to instantly query cloud APIs using SQL.
 
@@ -87,5 +87,5 @@ connection "hibp" {
 
 ## Get involved
 
-- Open source: https://gitlab.com/wedtm/steampipe-plugin-hibp
-- Community: [Discussion forums](https://github.com/turbot/steampipe/discussions)
+- Open source: https://github.com/turbot/steampipe-plugin-hibp
+- Community: [Slack Channel](https://steampipe.io/community/join)

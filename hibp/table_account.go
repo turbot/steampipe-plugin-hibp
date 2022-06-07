@@ -16,9 +16,9 @@ func tableAccount() *plugin.Table {
 		List: &plugin.ListConfig{
 			Hydrate: listBreachedAccounts,
 			KeyColumns: plugin.KeyColumnSlice{
-				&plugin.KeyColumn{Name: "account", Require: plugin.Required},
-				&plugin.KeyColumn{Name: "is_verified", Require: plugin.Optional},
-				&plugin.KeyColumn{Name: "domain", Require: plugin.Optional},
+				{Name: "account", Require: plugin.Required},
+				{Name: "is_verified", Require: plugin.Optional},
+				{Name: "domain", Require: plugin.Optional},
 			},
 			ShouldIgnoreError: ignore404Error,
 		},

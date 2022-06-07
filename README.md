@@ -1,8 +1,8 @@
 ![image](https://hub.steampipe.io/images/plugins/turbot/hibp-social-graphic.png)
 
-# HaveIBeenPwned Plugin for Steampipe
+# Have I Been Pwned Plugin for Steampipe
 
-Use SQL to query breaches, account breaches, pastes and passwords from [HaveIBeenPwned](https://haveibeenpwned.com/).
+Use SQL to query breaches, account breaches, pastes and passwords from [Have I Been Pwned](https://haveibeenpwned.com/).
 
 - **[Get started →](https://hub.steampipe.io/plugins/turbot/hibp)**
 - Documentation: [Table definitions & examples](https://hub.steampipe.io/plugins/turbot/hibp/tables)
