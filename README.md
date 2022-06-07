@@ -2,7 +2,7 @@
 
 # HaveIBeenPwned Plugin for Steampipe
 
-Use SQL to query breaches, account breaches, pastes and passwords from HaveIBeenPwned.
+Use SQL to query breaches, account breaches, pastes and passwords from [HaveIBeenPwned](https://haveibeenpwned.com/).
 
 - **[Get started →](https://hub.steampipe.io/plugins/turbot/hibp)**
 - Documentation: [Table definitions & examples](https://hub.steampipe.io/plugins/turbot/hibp/tables)
@@ -75,4 +75,4 @@ Please see the [contribution guidelines](https://github.com/turbot/steampipe/blo
 `help wanted` issues:
 
 - [Steampipe](https://github.com/turbot/steampipe/labels/help%20wanted)
-- [hibp Plugin](https://github.com/turbot/steampipe-plugin-hibp/labels/help%20wanted)
+- [HIBP Plugin](https://github.com/turbot/steampipe-plugin-hibp/labels/help%20wanted)
