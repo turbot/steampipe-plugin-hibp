@@ -3,17 +3,23 @@ package hibp
 import (
 	"context"
 
-	"github.com/turbot/steampipe-plugin-sdk/grpc/proto"
-	"github.com/turbot/steampipe-plugin-sdk/plugin"
-	"gitlab.com/wedtm/go-hibp"
+	"github.com/turbot/steampipe-plugin-sdk/v3/grpc/proto"
+	"github.com/turbot/steampipe-plugin-sdk/v3/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v3/plugin/transform"
+	"github.com/wneessen/go-hibp"
 )
+
+func transformApiDate(ctx context.Context, td *transform.TransformData) (interface{}, error) {
+	breach := td.HydrateItem.(*hibp.Breach)
+	return breach.BreachDate.Time(), nil
+}
 
 func breachColumns() []*plugin.Column {
 	return []*plugin.Column{
 		{Name: "name", Type: proto.ColumnType_STRING, Description: "A Pascal-cased name representing the breach which is unique across all other breaches. This value never changes and may be used to name dependent assets (such as images) but should not be shown directly to end users (see the 'title' field instead)."},
 		{Name: "title", Type: proto.ColumnType_STRING, Description: "A descriptive title for the breach suitable for displaying to end users. It's unique across all breaches but individual values may change in the future (i.e. if another breach occurs against an organisation already in the system). If a stable value is required to reference the breach, refer to the 'name' field instead."},
 		{Name: "domain", Type: proto.ColumnType_STRING, Description: "The domain of the primary website the breach occurred on. This may be used for identifying other assets external systems may have for the site."},
-		{Name: "breach_date", Type: proto.ColumnType_TIMESTAMP, Description: "The date (with no time) the breach originally occurred on in ISO 8601 format. This is not always accurate — frequently breaches are discovered and reported long after the original incident. Use this field as a guide only."},
+		{Name: "breach_date", Type: proto.ColumnType_TIMESTAMP, Transform: transform.From(transformApiDate), Description: "The date (with no time) the breach originally occurred on in ISO 8601 format. This is not always accurate — frequently breaches are discovered and reported long after the original incident. Use this field as a guide only."},
 		{Name: "added_date", Type: proto.ColumnType_TIMESTAMP, Description: "The date and time (precision to the minute) the breach was added to the system."},
 		{Name: "modified_date", Type: proto.ColumnType_TIMESTAMP, Description: "The date and time (precision to the minute) the breach was modified. This will only differ from the added_date attribute if other attributes represented here are changed or data in the breach itself is changed (i.e. additional data is identified and loaded). It is always either equal to or greater then the added_date field, never less than."},
 		{Name: "pwn_count", Type: proto.ColumnType_INT, Description: "The total number of accounts loaded into the system. This is usually less than the total number reported by the media due to duplication or other data integrity issues in the source data."},
@@ -33,7 +39,8 @@ func tableBreach() *plugin.Table {
 		Name:        "hibp_breach",
 		Description: "Breaches tracked by HIBP",
 		List: &plugin.ListConfig{
-			Hydrate: listBreaches,
+			Hydrate:    listBreaches,
+			KeyColumns: plugin.OptionalColumns([]string{"is_verified", "domain"}),
 		},
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("name"),
@@ -44,13 +51,24 @@ func tableBreach() *plugin.Table {
 }
 
 func listBreaches(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
-	client, err := hibp.NewClient(*GetConfig(d.Connection).ApiKey, nil)
+	client, err := getHibpClient(ctx, d)
 
 	if err != nil {
 		return nil, err
 	}
 
-	breaches, _, err := client.Breaches.ListBreaches()
+	requestOptions := []hibp.BreachOption{
+		hibp.WithoutTruncate(),
+	}
+
+	if val, ok := d.KeyColumnQuals["is_verified"]; ok && val.GetBoolValue() {
+		requestOptions = append(requestOptions, hibp.WithoutUnverified())
+	}
+	if val, ok := d.KeyColumnQuals["domain"]; ok && val.GetBoolValue() {
+		requestOptions = append(requestOptions, hibp.WithDomain(val.GetStringValue()))
+	}
+
+	breaches, _, err := client.BreachApi.Breaches(requestOptions...)
 
 	if err != nil {
 		return nil, err
@@ -63,7 +81,7 @@ func listBreaches(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateDat
 }
 
 func getBreach(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
-	client, err := hibp.NewClient(*GetConfig(d.Connection).ApiKey, nil)
+	client, err := getHibpClient(ctx, d)
 
 	if err != nil {
 		return nil, err
@@ -72,10 +90,10 @@ func getBreach(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) 
 	quals := d.KeyColumnQuals
 	name := quals["name"].GetStringValue()
 
-	breaches, _, err := client.Breaches.GetBreach(name)
+	breach, _, err := client.BreachApi.BreachByName(name)
 	if err != nil {
 		return nil, err
 	}
 
-	return breaches, nil
+	return breach, nil
 }

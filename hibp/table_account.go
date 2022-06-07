@@ -3,10 +3,10 @@ package hibp
 import (
 	"context"
 
-	"github.com/turbot/steampipe-plugin-sdk/grpc/proto"
-	"github.com/turbot/steampipe-plugin-sdk/plugin"
-	"github.com/turbot/steampipe-plugin-sdk/plugin/transform"
-	"gitlab.com/wedtm/go-hibp"
+	"github.com/turbot/steampipe-plugin-sdk/v3/grpc/proto"
+	"github.com/turbot/steampipe-plugin-sdk/v3/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v3/plugin/transform"
+	"github.com/wneessen/go-hibp"
 )
 
 func tableAccount() *plugin.Table {
@@ -14,12 +14,18 @@ func tableAccount() *plugin.Table {
 		Name:        "hibp_account",
 		Description: "Breached accounts tracked by HIBP",
 		List: &plugin.ListConfig{
-			KeyColumns: plugin.SingleColumn("account"),
-			Hydrate:    listBreachedAccounts,
+			Hydrate: listBreachedAccounts,
+			KeyColumns: plugin.KeyColumnSlice{
+				&plugin.KeyColumn{Name: "account", Require: plugin.Required},
+				&plugin.KeyColumn{Name: "is_verified", Require: plugin.Optional},
+				&plugin.KeyColumn{Name: "domain", Require: plugin.Optional},
+			},
+			ShouldIgnoreError: ignore404Error,
 		},
 		Get: &plugin.GetConfig{
-			KeyColumns: plugin.SingleColumn("name"),
-			Hydrate:    getBreach,
+			KeyColumns:        plugin.SingleColumn("name"),
+			Hydrate:           getBreach,
+			ShouldIgnoreError: ignore404Error,
 		},
 		Columns: append(breachColumns(), &plugin.Column{
 			Name:        "account",
@@ -31,7 +37,7 @@ func tableAccount() *plugin.Table {
 }
 
 func listBreachedAccounts(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
-	client, err := hibp.NewClient(*GetConfig(d.Connection).ApiKey, nil)
+	client, err := getHibpClient(ctx, d)
 
 	if err != nil {
 		return nil, err
@@ -40,7 +46,18 @@ func listBreachedAccounts(ctx context.Context, d *plugin.QueryData, h *plugin.Hy
 	quals := d.KeyColumnQuals
 	account := quals["account"].GetStringValue()
 
-	breaches, _, err := client.Breaches.ByAccount(account)
+	requestOptions := []hibp.BreachOption{
+		hibp.WithoutTruncate(),
+	}
+
+	if val, ok := d.KeyColumnQuals["is_verified"]; ok && val.GetBoolValue() {
+		requestOptions = append(requestOptions, hibp.WithoutUnverified())
+	}
+	if val, ok := d.KeyColumnQuals["domain"]; ok && val.GetBoolValue() {
+		requestOptions = append(requestOptions, hibp.WithDomain(val.GetStringValue()))
+	}
+
+	breaches, _, err := client.BreachApi.BreachedAccount(account, requestOptions...)
 
 	if err != nil {
 		return nil, err
