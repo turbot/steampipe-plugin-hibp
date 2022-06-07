@@ -76,6 +76,10 @@ func listBreaches(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateDat
 
 	for _, breach := range breaches {
 		d.StreamListItem(ctx, breach)
+		// Context can be cancelled due to manual cancellation or the limit has been hit
+		if d.QueryStatus.RowsRemaining(ctx) == 0 {
+			return nil, nil
+		}
 	}
 	return nil, nil
 }
