@@ -21,12 +21,14 @@ Run a query:
 
 ```sql
 select
-  title,
+  name,
+  pwn_count as compromised_count,
+  is_verified as verified,
   breach_date
 from
   hibp_breach
 where
-  breach_date > CURRENT_DATE - INTERVAL '3 months'
+  breach_date > '2022-01-01'
 ```
 
 ## Developing
