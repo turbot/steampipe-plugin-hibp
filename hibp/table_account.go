@@ -30,7 +30,7 @@ func tableAccount() *plugin.Table {
 		Columns: append(breachColumns(), &plugin.Column{
 			Name:        "account",
 			Type:        proto.ColumnType_STRING,
-			Description: "The email or phone account that was found in the paste (this field is required).",
+			Description: "The email or phone account that was found in the breach (this field is required).",
 			Transform:   transform.FromQual("account"),
 		}),
 	}
