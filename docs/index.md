@@ -10,7 +10,7 @@ og_description: Query HIBP data with SQL! Open source CLI. No DB required.
 og_image: "/images/plugins/turbot/hibp-social-graphic.png"
 ---
 
-# Have I Been Pwned? + Steampipe
+# Have I Been Pwned + Steampipe
 
 [Steampipe](https://steampipe.io) is an open source CLI to instantly query cloud APIs using SQL.
 
