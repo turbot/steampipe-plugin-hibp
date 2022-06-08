@@ -1,26 +1,53 @@
 # Table: hibp_account
 
-This table returns data similar to the `hibp_breach` table, with the requirement of an `account` field.
+The most common use of the API is to return a list of all breaches a particular account has been involved in. This table returns data similar to the `hibp_breach` table, with the requirement and addition of an `account` field.
 
-While the `hibp_breaches` table will return all of the known breaches, there are millions of accounts associated with those
-breaches. To find the breaches associated with a certain account, you must use this table.
+While the `hibp_breaches` table will return all of the known breaches, this table can be used to find breaches for a particular account.
 
 ## Examples
 
-### Breaches from the last 3 months
+### Breaches from the last 3 months for an account
 
 ```sql
-select title, breach_date
-from hibp_breach
-where breach_date > CURRENT_DATE - INTERVAL '3 months'
-and account = 'account-exists@hibp-integration-tests.com'
+select
+  title,
+  breach_date
+from
+  hibp_account
+where
+  breach_date > current_date - interval '3 months'
+  and account = 'billy@example.com'
 ```
 
-### Unverified breaches
+### Unverified breaches for an account
 
 ```sql
-select title, pwn_count as size, breach_date
-from hibp_breach
-where is_verified = false
-and account = 'account-exists@hibp-integration-tests.com'
+select
+  title,
+  pwn_count as size,
+  breach_date
+from
+  hibp_account
+where
+  is_verified = false
+  and account = 'billy@example.com'
+```
+
+### List all breaches for an account for the `"Passwords"` or `"Usernames"` data classes
+
+```sql
+select
+  distinct(title),
+  pwn_count as size,
+  breach_date
+from
+  hibp_account,
+  jsonb_array_elements(data_classes) as dc
+where
+  account = 'billy@example.com'
+  and dc::text in
+  (
+    '"Passwords"',
+    '"Usernames"'
+  )
 ```
