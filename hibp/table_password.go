@@ -10,9 +10,9 @@ import (
 )
 
 type psswrdRow struct {
-	Plain *string
-	Hash  *string
-	Count *int64
+	Plain string
+	Hash  string
+	Count int64
 }
 
 func tablePassword() *plugin.Table {
@@ -38,15 +38,14 @@ func listPasswords(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateDa
 		return nil, err
 	}
 
-	var plain *string
+	var plain string
 
 	hash := ""
-	if h, ok := d.KeyColumnQuals["hash"]; ok {
-		hash = h.GetStringValue()
+	if h := d.KeyColumnQualString("hash"); len(h) > 0 {
+		hash = h
 	} else {
-		p := d.KeyColumnQuals["plain"].GetStringValue()
-		plain = &p
-		hash = fmt.Sprintf("%x", sha1.Sum([]byte(*plain)))
+		plain = d.KeyColumnQualString("plain")
+		hash = fmt.Sprintf("%x", sha1.Sum([]byte(plain)))
 	}
 
 	if len(hash) < 40 {
@@ -54,18 +53,19 @@ func listPasswords(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateDa
 	}
 
 	match, _, err := client.PwnedPassApi.CheckSHA1(hash)
-
 	if err != nil {
 		return nil, err
 	}
 
-	row := &psswrdRow{
-		Hash:  &match.Hash,
-		Plain: plain,
-		Count: &match.Count,
-	}
+	if match != nil {
+		row := &psswrdRow{
+			Hash:  match.Hash,
+			Plain: plain,
+			Count: match.Count,
+		}
 
-	d.StreamListItem(ctx, row)
+		d.StreamListItem(ctx, row)
+	}
 
 	return nil, nil
 }
