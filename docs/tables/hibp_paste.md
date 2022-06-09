@@ -17,3 +17,16 @@ from
 where
   account = 'billy@example.com'
 ```
+
+### Pastes where `billy@example.com` was included in the paste and `date` is NOT NULL
+
+```sql
+select
+  id,
+  source
+from
+  hibp_paste
+where
+  account = 'billy@example.com'
+  and date is not null
+```
