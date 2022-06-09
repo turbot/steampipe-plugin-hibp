@@ -18,15 +18,16 @@ where
   account = 'billy@example.com';
 ```
 
-### List pastes where `billy@example.com` was included in the paste and `date` is NOT NULL
+### List pastes where `billy@example.com` was included in the last 10 years
 
 ```sql
 select
   id,
-  source
+  source,
+  date
 from
   hibp_paste
 where
   account = 'billy@example.com'
-  and date is not null;
+  and date > now() - interval '10 years';
 ```

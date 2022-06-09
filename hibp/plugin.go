@@ -16,10 +16,10 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 		},
 		DefaultTransform: transform.FromGo().NullIfZero(),
 		TableMap: map[string]*plugin.Table{
-			"hibp_breach":           tableBreach(),
-			"hibp_breached_account": tableAccount(),
-			"hibp_password":         tablePassword(),
-			"hibp_paste":            tablePaste(),
+			"hibp_breach":           tableHIBPBreach(),
+			"hibp_breached_account": tableHIBPBreachedAccount(),
+			"hibp_password":         tableHIBPPassword(),
+			"hibp_paste":            tableHIBPPaste(),
 		},
 	}
 

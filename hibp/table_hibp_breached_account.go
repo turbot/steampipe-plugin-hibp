@@ -9,10 +9,10 @@ import (
 	"github.com/wneessen/go-hibp"
 )
 
-func tableAccount() *plugin.Table {
+func tableHIBPBreachedAccount() *plugin.Table {
 	return &plugin.Table{
 		Name:        "hibp_breached_account",
-		Description: "Breached accounts tracked by HIBP",
+		Description: "Breached accounts tracked by HIBP.",
 		List: &plugin.ListConfig{
 			Hydrate: listBreachedAccounts,
 			KeyColumns: plugin.KeyColumnSlice{

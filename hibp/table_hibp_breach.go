@@ -7,10 +7,10 @@ import (
 	"github.com/wneessen/go-hibp"
 )
 
-func tableBreach() *plugin.Table {
+func tableHIBPBreach() *plugin.Table {
 	return &plugin.Table{
 		Name:        "hibp_breach",
-		Description: "Breaches tracked by HIBP",
+		Description: "Breaches tracked by HIBP.",
 		List: &plugin.ListConfig{
 			Hydrate:    listBreaches,
 			KeyColumns: plugin.OptionalColumns([]string{"is_verified", "domain"}),

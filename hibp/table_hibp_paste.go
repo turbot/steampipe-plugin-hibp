@@ -8,10 +8,10 @@ import (
 	"github.com/turbot/steampipe-plugin-sdk/v3/plugin/transform"
 )
 
-func tablePaste() *plugin.Table {
+func tableHIBPPaste() *plugin.Table {
 	return &plugin.Table{
 		Name:        "hibp_paste",
-		Description: "Pastes tracked by HIBP",
+		Description: "Pastes tracked by HIBP.",
 		List: &plugin.ListConfig{
 			KeyColumns: plugin.SingleColumn("account"),
 			Hydrate:    listPastes,

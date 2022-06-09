@@ -15,10 +15,10 @@ type psswrdRow struct {
 	Count int64
 }
 
-func tablePassword() *plugin.Table {
+func tableHIBPPassword() *plugin.Table {
 	return &plugin.Table{
 		Name:        "hibp_password",
-		Description: "Password (hashes) tracked by HIBP",
+		Description: "Password (hashes) tracked by HIBP.",
 		List: &plugin.ListConfig{
 			KeyColumns: plugin.AnyColumn([]string{"plaintext", "hash"}),
 			Hydrate:    listPasswords,
