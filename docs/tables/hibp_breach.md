@@ -21,7 +21,7 @@ where
 ```sql
 select
   title,
-  pwn_count as size,
+  pwn_count,
   breach_date
 from
   hibp_breached_account
