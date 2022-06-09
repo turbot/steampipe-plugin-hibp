@@ -51,3 +51,24 @@ where
     '"Usernames"'
   )
 ```
+
+### List all breaches for accounts for all `Active` users in the organization (uses the [Okta Plugin](https://hub.steampipe.io/plugins/turbot/okta))
+
+```sql
+select
+  title,
+  pwn_count,
+  breach_date
+from
+  hibp_breached_account,
+where
+  account in
+  (
+    select
+      email
+    from
+      okta_user
+    where
+      filter = 'status eq "ACTIVE"'
+  )
+```
