@@ -13,7 +13,7 @@ select
   title,
   breach_date
 from
-  hibp_account
+  hibp_breached_account
 where
   breach_date > current_date - interval '3 months'
   and account = 'billy@example.com'
@@ -27,7 +27,7 @@ select
   pwn_count as size,
   breach_date
 from
-  hibp_account
+  hibp_breached_account
 where
   is_verified = false
   and account = 'billy@example.com'
@@ -41,7 +41,7 @@ select
   pwn_count as size,
   breach_date
 from
-  hibp_account,
+  hibp_breached_account,
   jsonb_array_elements(data_classes) as dc
 where
   account = 'billy@example.com'
