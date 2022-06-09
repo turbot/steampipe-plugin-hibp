@@ -6,7 +6,7 @@ While the `hibp_breaches` table will return all of the known breaches, this tabl
 
 ## Examples
 
-### Breaches from the last 3 months for an account
+### List breaches from the last 3 months for an account
 
 ```sql
 select
@@ -16,10 +16,10 @@ from
   hibp_breached_account
 where
   breach_date > current_date - interval '3 months'
-  and account = 'billy@example.com'
+  and account = 'billy@example.com';
 ```
 
-### Unverified breaches for an account
+### List unverified breaches for an account
 
 ```sql
 select
@@ -30,10 +30,10 @@ from
   hibp_breached_account
 where
   is_verified = false
-  and account = 'billy@example.com'
+  and account = 'billy@example.com';
 ```
 
-### List all breaches for an account for the `"Passwords"` or `"Usernames"` data classes
+### List breaches for an account for the `"Passwords"` or `"Usernames"` data classes
 
 ```sql
 select
@@ -49,10 +49,10 @@ where
   (
     '"Passwords"',
     '"Usernames"'
-  )
+  );
 ```
 
-### List all breaches for accounts of all `Active` users in the organization (uses the [Okta Plugin](https://hub.steampipe.io/plugins/turbot/okta))
+### List breaches for active Okta users (requires [Okta plugin](https://hub.steampipe.io/plugins/turbot/okta))
 
 ```sql
 select
@@ -70,10 +70,10 @@ where
       okta_user
     where
       filter = 'status eq "ACTIVE"'
-  )
+  );
 ```
 
-### List all breaches for all "Admin" users in the organization (uses the [LDAP Plugin](https://hub.steampipe.io/plugins/turbot/ldap))
+### List breaches for LDAP users (requires [LDAP plugin](https://hub.steampipe.io/plugins/turbot/ldap))
 
 ```sql
 select
@@ -91,5 +91,5 @@ where
       ldap_user
     where
       filter = '(memberof=CN=Devs,OU=Steampipe,OU=SP,DC=sp,DC=turbot,DC=com)'
-  )
+  );
 ```
