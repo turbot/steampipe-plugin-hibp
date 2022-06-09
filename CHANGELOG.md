@@ -7,3 +7,5 @@ _What's new?_
   - [hibp_breached_account](https://hub.steampipe.io/plugins/turbot/hibp/tables/hibp_breached_account)
   - [hibp_password](https://hub.steampipe.io/plugins/turbot/hibp/tables/hibp_password)
   - [hibp_paste](https://hub.steampipe.io/plugins/turbot/hibp/tables/hibp_paste)
+
+Thanks to [@wedtm](https://github.com/wedtm) for his ideas and original work on this plugin!
