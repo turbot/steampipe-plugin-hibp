@@ -1,21 +1,32 @@
 # Table: hibp_password
 
-Passwords indexed by HIBP.
+Pwned Passwords are more than half a billion passwords which have previously been exposed in data breaches. Each password is stored as a `SHA-1` hash of a UTF-8 encoded password.
 
-You must include at _least_ 5 characters in the `prefix` field.
+You can search by providing the `hash` - which is the `SHA-1` hash of the password that you are looking for. Alternatively, you can also search by the `plaintext` password which is converted to a `SHA-1` hash under the hood before calling the HIBP API.
 
 ## Examples
 
-### Show the number of times this password has been compromised
+### Get the number of times a password hash has been compromised (by hash)
 
 ```sql
-select * from hibp_password
- where hash = '5BAA61E4C9B93F3F0682250B6CF8331B7EE68FD8'
+select
+  hash,
+  count
+from
+  hibp_password
+where
+  hash = '908f704ccaadfd86a74407d234c7bde30f2744fe';
 ```
 
-### Show all hashes for a 5 character prefix
+### Get the number of times a password has been compromised (by plaintext)
 
 ```sql
-select * from hibp_password
- where prefix = '5BAA6'
+select
+  plaintext,
+  hash,
+  count
+from
+  hibp_password
+where
+  plaintext = '123457';
 ```

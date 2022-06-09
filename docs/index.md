@@ -1,20 +1,20 @@
 ---
-organization: wedtm
-category: ["internet"]
-icon_url: "/images/plugins/wedtm/hibp.svg"
+organization: turbot
+category: ["security"]
+icon_url: "/images/plugins/turbot/hibp.svg"
 brand_color: "#3A9AC4"
-display_name: Security
+display_name: Have I Been Pwned
 name: hibp
-description: Steampipe plugin to query Have I Been Pwned breaches, pastes, and passwords
-og_description: Query compromised data with SQL! Open source CLI. No DB required.
-og_image: "TBD"
+description: Steampipe plugin to query breaches, account breaches, pastes and passwords from Have I Been Pwned.
+og_description: Query HIBP data with SQL! Open source CLI. No DB required.
+og_image: "/images/plugins/turbot/hibp-social-graphic.png"
 ---
 
-# HaveIBeenPwned? + Steampipe
+# Have I Been Pwned + Steampipe
 
 [Steampipe](https://steampipe.io) is an open source CLI to instantly query cloud APIs using SQL.
 
-Compromised accounts and passwords available via [Have I Been Pwned](https://haveibeenpwned.com) (HIBP) along with the breaches that compromised them are searchable.
+[Have I Been Pwned](https://haveibeenpwned.com) (HIBP) is an online searchable index of data breaches where anyone can quickly assess if they may have been put at risk due to an online account of theirs having been compromised or "pwned" in a data breach.
 
 For example:
 
@@ -27,40 +27,28 @@ select
 from
   hibp_breach
 where
-  breach_date > '2020-01-01'
+  breach_date > '2022-01-01'
 ```
 
 ```
-+------------------+-------------------+----------+---------------------+
-| name             | compromised_count | verified | breach_date         |
-+------------------+-------------------+----------+---------------------+
-| DominosIndia     | 22527655          | true     | 2021-03-24 00:00:00 |
-| Descomplica      | 4845378           | true     | 2021-03-14 00:00:00 |
-| CityBee          | 110156            | true     | 2021-02-05 00:00:00 |
-| DailyQuiz        | 8032404           | true     | 2021-01-13 00:00:00 |
-| CardingMafia     | 297744            | true     | 2021-03-18 00:00:00 |
-| Emotet           | 4324770           | true     | 2021-01-27 00:00:00 |
-| Gab              | 66521             | true     | 2021-02-26 00:00:00 |
-| PhoneHouse       | 5223350           | true     | 2021-04-08 00:00:00 |
-| MangaDex         | 2987329           | true     | 2021-03-22 00:00:00 |
-| NurseryCam       | 10585             | true     | 2021-02-12 00:00:00 |
-| Oxfam            | 1834006           | true     | 2021-01-20 00:00:00 |
-| ParkMobile       | 20949825          | true     | 2021-03-21 00:00:00 |
-| Liker            | 465141            | true     | 2021-03-08 00:00:00 |
-| WedMeGood        | 1306723           | true     | 2021-01-06 00:00:00 |
-| SuperVPNGeckoVPN | 20339937          | true     | 2021-02-25 00:00:00 |
-| Ticketcounter    | 1921722           | true     | 2021-02-22 00:00:00 |
-| WeLeakInfo       | 11788             | true     | 2021-03-08 00:00:00 |
-| Astoria          | 11498146          | false    | 2021-01-26 00:00:00 |
-+------------------+-------------------+----------+---------------------+
++----------------+-------------------+----------+---------------------------+
+| name           | compromised_count | verified | breach_date               |
++----------------+-------------------+----------+---------------------------+
+| AmartFurniture | 108940            | true     | 2022-05-16T05:30:00+05:30 |
+| BlackBerryFans | 174168            | true     | 2022-05-06T05:30:00+05:30 |
+| Fanpass        | 112251            | true     | 2022-04-30T05:30:00+05:30 |
+| GiveSendGo     | 89966             | true     | 2022-02-07T05:30:00+05:30 |
+| CDEK           | 19218203          | false    | 2022-03-09T05:30:00+05:30 |
+| Doxbin         | 370794            | true     | 2022-01-05T05:30:00+05:30 |
+| NVIDIA         | 71335             | true     | 2022-02-23T05:30:00+05:30 |
+| MacGeneration  | 101004            | true     | 2022-01-29T05:30:00+05:30 |
+| PayHere        | 1580249           | true     | 2022-03-27T05:30:00+05:30 |
++----------------+-------------------+----------+---------------------------+
 ```
 
 ## Documentation
 
-- [hibp_account](/docs/tables/hibp_account.md)
-- [hibp_breach](/docs/tables/hibp_breach.md)
-- [hibp_password](/docs/tables/hibp_password.md)
-- [hibp_paste](/docs/tables/hibp_paste.md)
+- **[Table definitions & examples →](/plugins/turbot/hibp/tables)**
 
 ## Get started
 
@@ -69,31 +57,26 @@ where
 Download and install the latest HIBP plugin:
 
 ```shell
-steampipe plugin install wedtm/hibp
-```
-
-If you are of the untrusting variety, you can also download this repository, build, and then install all on your own. You'll
-need to make sure you have a proper Go environment setup.
-
-```shell
-git clone https://gitlab.com/wedtm/steampipe-plugin-hibp steampipe-plugin-hibp && cd steampipe-plugin-hibp
-go build -o steampipe-plugin-hibp.plugin
-mv steampipe-plugin-hibp.plugin ~/.steampipe/plugins/hub.steampipe.io/plugins/wedtm/hibp@latest/steampipe-plugin-hibp.plugin
-cp config/hibp.spc ~/.steampipe/config/hibp.spc
+steampipe plugin install hibp
 ```
 
 ### Configuration
 
-Installing the latest HIBP plugin will create a config file (`~/.steampipe/config/hibp.spc`) with a single connection named `hibp`:
+Installing the latest hibp plugin will create a config file (`~/.steampipe/config/hibp.spc`) with a single connection named `hibp`:
 
 ```hcl
 connection "hibp" {
-  plugin     = "wedtm/hibp"
-  api_key     = "use-it-if-you-got-it"
+  plugin  = "hibp"
+
+  # Requests to HIBP API needs to carry an API KEY.
+  # You can get one at https://haveibeenpwned.com/API/Key
+  # api_key = "03ef6bfxxxxxxxxxxxxxxx8ad568286b"
 }
 ```
 
+- `api_key` - (required) The API key to access the HIBP API. Can also be set with the `HIBP_API_KEY` environment variable.
+
 ## Get involved
 
-- Open source: https://gitlab.com/wedtm/steampipe-plugin-hibp
-- Community: [Discussion forums](https://github.com/turbot/steampipe/discussions)
+- Open source: https://github.com/turbot/steampipe-plugin-hibp
+- Community: [Slack Channel](https://steampipe.io/community/join)
