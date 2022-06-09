@@ -2,7 +2,7 @@
 
 Pwned Passwords are more than half a billion passwords which have previously been exposed in data breaches. Each password is stored as a `SHA-1` hash of a UTF-8 encoded password.
 
-You can also search by the `plain text` password which is converted to a `SHA-1` hash under the hood before calling the HIBP API.
+You can search by providing the `password_hash` - which is the `SHA-1` hash of the password that you are looking for. Alternatively, you can also search by the `plain text` password which is converted to a `SHA-1` hash under the hood before calling the HIBP API.
 
 ## Examples
 
