@@ -11,7 +11,7 @@ import (
 
 func tableAccount() *plugin.Table {
 	return &plugin.Table{
-		Name:        "hibp_account",
+		Name:        "hibp_breached_account",
 		Description: "Breached accounts tracked by HIBP",
 		List: &plugin.ListConfig{
 			Hydrate: listBreachedAccounts,

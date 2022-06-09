@@ -1,4 +1,4 @@
-# Table: hibp_breach
+# Table: hibp_breached_account
 
 A "breach" is an instance of a system having been compromised by an attacker and the data disclosed. For example, Adobe was a breach, Gawker was a breach etc. This returns the details of each of breach in the system which currently stands at 606 breaches.
 
@@ -11,7 +11,7 @@ select
   title,
   breach_date
 from
-  hibp_breach
+  hibp_breached_account
 where
   breach_date > current_date - interval '3 months'
 ```
@@ -24,7 +24,7 @@ select
   pwn_count as size,
   breach_date
 from
-  hibp_breach
+  hibp_breached_account
 where
   is_verified = false
 ```
@@ -37,7 +37,7 @@ select
   pwn_count as size,
   breach_date
 from
-  hibp_account,
+  hibp_breached_account,
   jsonb_array_elements(data_classes) as dc
 where
   dc::text in
