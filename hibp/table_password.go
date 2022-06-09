@@ -7,10 +7,10 @@ import (
 
 	"github.com/turbot/steampipe-plugin-sdk/v3/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v3/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v3/plugin/transform"
 )
 
 type psswrdRow struct {
-	Password     string
 	PasswordHash string
 	Count        int64
 }
@@ -24,7 +24,7 @@ func tablePassword() *plugin.Table {
 			Hydrate:    listPasswords,
 		},
 		Columns: []*plugin.Column{
-			{Name: "password", Type: proto.ColumnType_STRING, Description: "The plain-text of the compromised password (sent as a hash to the API)."},
+			{Name: "password", Type: proto.ColumnType_STRING, Transform: transform.FromQual("password").NullIfZero(), Description: "The plain-text of the compromised password (sent as a hash to the API)."},
 			{Name: "password_hash", Type: proto.ColumnType_STRING, Description: "The hash of the compromised password."},
 			{Name: "count", Type: proto.ColumnType_INT, Description: "The total number of times this password has been found compromised."},
 		},
@@ -60,7 +60,6 @@ func listPasswords(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateDa
 	if match != nil {
 		row := &psswrdRow{
 			PasswordHash: match.Hash,
-			Password:     password,
 			Count:        match.Count,
 		}
 
