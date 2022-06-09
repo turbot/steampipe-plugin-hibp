@@ -13,7 +13,7 @@ select
 from
   hibp_breach
 where
-  breach_date > current_date - interval '3 months'
+  breach_date > current_date - interval '3 months';
 ```
 
 ### List unverified breaches
@@ -26,10 +26,10 @@ select
 from
   hibp_breach
 where
-  is_verified = false
+  is_verified = false;
 ```
 
-### List all breaches for the `"Passwords"` or `"Usernames"` data classes
+### List breaches for the `"Passwords"` or `"Usernames"` data classes
 
 ```sql
 select
@@ -44,5 +44,5 @@ where
   (
     '"Passwords"',
     '"Usernames"'
-  )
+  );
 ```

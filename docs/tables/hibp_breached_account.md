@@ -60,7 +60,7 @@ select
   pwn_count,
   breach_date
 from
-  hibp_breached_account,
+  hibp_breached_account
 where
   account in
   (
@@ -81,7 +81,7 @@ select
   pwn_count,
   breach_date
 from
-  hibp_breached_account,
+  hibp_breached_account
 where
   account in
   (

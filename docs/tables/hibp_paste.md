@@ -6,7 +6,7 @@ HIBP searches through pastes that are broadcast by the accounts in the Paste Sou
 
 ## Examples
 
-### Pastes where `billy@example.com` was included in the paste
+### List pastes where `billy@example.com` was included in the paste
 
 ```sql
 select
@@ -15,10 +15,10 @@ select
 from
   hibp_paste
 where
-  account = 'billy@example.com'
+  account = 'billy@example.com';
 ```
 
-### Pastes where `billy@example.com` was included in the paste and `date` is NOT NULL
+### List pastes where `billy@example.com` was included in the paste and `date` is NOT NULL
 
 ```sql
 select
@@ -28,5 +28,5 @@ from
   hibp_paste
 where
   account = 'billy@example.com'
-  and date is not null
+  and date is not null;
 ```

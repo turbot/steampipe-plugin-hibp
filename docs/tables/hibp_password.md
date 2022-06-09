@@ -2,31 +2,31 @@
 
 Pwned Passwords are more than half a billion passwords which have previously been exposed in data breaches. Each password is stored as a `SHA-1` hash of a UTF-8 encoded password.
 
-You can search by providing the `password_hash` - which is the `SHA-1` hash of the password that you are looking for. Alternatively, you can also search by the `plain text` password which is converted to a `SHA-1` hash under the hood before calling the HIBP API.
+You can search by providing the `hash` - which is the `SHA-1` hash of the password that you are looking for. Alternatively, you can also search by the `plaintext` password which is converted to a `SHA-1` hash under the hood before calling the HIBP API.
 
 ## Examples
 
-### List the number of times a password hash has been compromised
+### Get the number of times a password hash has been compromised (by hash)
 
 ```sql
 select
-  password_hash,
+  hash,
   count
 from
   hibp_password
 where
-  password_hash = '908f704ccaadfd86a74407d234c7bde30f2744fe'
+  hash = '908f704ccaadfd86a74407d234c7bde30f2744fe';
 ```
 
-### List the number of times a password has been compromised (by plain text)
+### Get the number of times a password has been compromised (by plaintext)
 
 ```sql
 select
-  password,
-  password_hash,
+  plaintext,
+  hash,
   count
 from
   hibp_password
 where
-  password = '123457'
+  plaintext = '123457';
 ```
