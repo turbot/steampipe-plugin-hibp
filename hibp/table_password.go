@@ -11,8 +11,8 @@ import (
 )
 
 type psswrdRow struct {
-	PasswordHash string
-	Count        int64
+	Hash  string
+	Count int64
 }
 
 func tablePassword() *plugin.Table {
@@ -20,12 +20,12 @@ func tablePassword() *plugin.Table {
 		Name:        "hibp_password",
 		Description: "Password (hashes) tracked by HIBP",
 		List: &plugin.ListConfig{
-			KeyColumns: plugin.AnyColumn([]string{"password", "password_hash"}),
+			KeyColumns: plugin.AnyColumn([]string{"plaintext", "hash"}),
 			Hydrate:    listPasswords,
 		},
 		Columns: []*plugin.Column{
-			{Name: "password", Type: proto.ColumnType_STRING, Transform: transform.FromQual("password").NullIfZero(), Description: "The plain-text of the compromised password (sent as a hash to the API)."},
-			{Name: "password_hash", Type: proto.ColumnType_STRING, Description: "The hash of the compromised password."},
+			{Name: "plaintext", Type: proto.ColumnType_STRING, Transform: transform.FromQual("plaintext").NullIfZero(), Description: "The plain-text of the compromised password (sent as a hash to the API)."},
+			{Name: "hash", Type: proto.ColumnType_STRING, Description: "The hash of the compromised password."},
 			{Name: "count", Type: proto.ColumnType_INT, Description: "The total number of times this password has been found compromised."},
 		},
 	}
@@ -38,14 +38,14 @@ func listPasswords(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateDa
 		return nil, err
 	}
 
-	var password string
+	var plaintext string
 
 	passwordHash := ""
-	if h := d.KeyColumnQualString("password_hash"); len(h) > 0 {
+	if h := d.KeyColumnQualString("hash"); len(h) > 0 {
 		passwordHash = h
 	} else {
-		password = d.KeyColumnQualString("password")
-		passwordHash = fmt.Sprintf("%x", sha1.Sum([]byte(password)))
+		plaintext = d.KeyColumnQualString("plaintext")
+		passwordHash = fmt.Sprintf("%x", sha1.Sum([]byte(plaintext)))
 	}
 
 	if len(passwordHash) < 40 {
@@ -59,8 +59,8 @@ func listPasswords(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateDa
 
 	if match != nil {
 		row := &psswrdRow{
-			PasswordHash: match.Hash,
-			Count:        match.Count,
+			Hash:  match.Hash,
+			Count: match.Count,
 		}
 
 		d.StreamListItem(ctx, row)
