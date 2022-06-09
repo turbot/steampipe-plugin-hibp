@@ -52,7 +52,7 @@ where
   )
 ```
 
-### List all breaches for accounts for all `Active` users in the organization (uses the [Okta Plugin](https://hub.steampipe.io/plugins/turbot/okta))
+### List all breaches for accounts of all `Active` users in the organization (uses the [Okta Plugin](https://hub.steampipe.io/plugins/turbot/okta))
 
 ```sql
 select
@@ -70,5 +70,26 @@ where
       okta_user
     where
       filter = 'status eq "ACTIVE"'
+  )
+```
+
+### List all breaches for all "Admin" users in the organization (uses the [LDAP Plugin](https://hub.steampipe.io/plugins/turbot/ldap))
+
+```sql
+select
+  title,
+  pwn_count,
+  breach_date
+from
+  hibp_breached_account,
+where
+  account in
+  (
+    select
+      mail
+    from
+      ldap_user
+    where
+      filter = '(memberof=CN=Devs,OU=Steampipe,OU=SP,DC=sp,DC=turbot,DC=com)'
   )
 ```
