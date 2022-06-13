@@ -41,5 +41,5 @@ select
 from
   hibp_password
 where
-  plaintext = '908f704cc';
+  hash_prefix = '908f704cc';
 ```
