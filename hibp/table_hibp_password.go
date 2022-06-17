@@ -30,6 +30,7 @@ func tableHIBPPassword() *plugin.Table {
 			{Name: "plaintext", Type: proto.ColumnType_STRING, Transform: transform.FromQual("plaintext").NullIfZero(), Description: "The plain-text of the compromised password (sent as a hash to the API)."},
 			{Name: "hash", Type: proto.ColumnType_STRING, Description: "The hash of the compromised password."},
 			{Name: "hash_prefix", Type: proto.ColumnType_STRING, Description: "The first 5-char prefix of the hash of the compromised password."},
+			{Name: "count", Type: proto.ColumnType_INT, Description: "The total number of times this password has been found compromised."},
 		},
 	}
 }
@@ -54,8 +55,8 @@ func listPasswords(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateDa
 		hashPrefixToSearch = hash
 	} else if prefix := d.KeyColumnQualString("hash_prefix"); len(prefix) > 0 {
 		hashPrefixToSearch = d.KeyColumnQualString("hash_prefix")
-		if len(hashPrefixToSearch) != 5 {
-			return nil, fmt.Errorf("'hash_prefix' must be atleast 5 characters")
+		if len(hashPrefixToSearch) < 5 {
+			return nil, fmt.Errorf("'hash_prefix' must be at least 5 characters")
 		}
 
 		// make sure that this is a valid hex string
@@ -76,7 +77,7 @@ func listPasswords(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateDa
 		if match.Count > 0 && strings.HasPrefix(match.Hash, hashPrefixToSearch) {
 			row := &psswrdRow{
 				Match:      match,
-				HashPrefix: match.Hash[:5],
+				HashPrefix: match.Hash[:len(hashPrefixToSearch)],
 			}
 
 			d.StreamListItem(ctx, row)
