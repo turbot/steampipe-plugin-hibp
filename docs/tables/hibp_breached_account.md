@@ -41,15 +41,10 @@ select
   pwn_count,
   breach_date
 from
-  hibp_breached_account,
-  jsonb_array_elements(data_classes) as dc
+  hibp_breached_account
 where
   account = 'billy@example.com'
-  and dc::text in
-  (
-    '"Passwords"',
-    '"Usernames"'
-  );
+  and data_classes ?| array['Usernames','Passwords'];
 ```
 
 ### List breaches for active Okta users (requires [Okta plugin](https://hub.steampipe.io/plugins/turbot/okta))

@@ -144,8 +144,8 @@ github.com/turbot/steampipe-plugin-sdk/v3 v3.2.0/go.mod h1:Urv1Eh7UWSLGA/CTWig1R
 github.com/vmihailenco/msgpack v3.3.3+incompatible/go.mod h1:fy3FlTQTDXWkZ7Bh6AcGMlsjHatGryHQYUTf1ShIgkk=
 github.com/vmihailenco/msgpack/v4 v4.3.12/go.mod h1:gborTTJjAo/GWTqqRjrLCn9pgNN+NXzzngzBKDPIqw4=
 github.com/vmihailenco/tagparser v0.1.1/go.mod h1:OeAg3pn3UbLjkWt+rN9oFYB6u/cQgqMEUPoW2WPyhdI=
-github.com/wneessen/go-hibp v1.0.2 h1:QbNGJ6hO0zfJn4rBy007Ur5lDj5m2rxQOJBZXje4cxg=
-github.com/wneessen/go-hibp v1.0.2/go.mod h1:Ldg6DQg4fMCveVKgL+RL9Jy+9TsljjAP704Ix8X3jOw=
+github.com/wneessen/go-hibp v1.0.3 h1:7T5tAoqre6+A4CdZRXZb9VbxWCcdzr+BdskyghxpaME=
+github.com/wneessen/go-hibp v1.0.3/go.mod h1:Ldg6DQg4fMCveVKgL+RL9Jy+9TsljjAP704Ix8X3jOw=
 github.com/zclconf/go-cty v1.2.0/go.mod h1:hOPWgoHbaTUnI5k4D2ld+GRpFJSCe6bCM7m1q/N4PQ8=
 github.com/zclconf/go-cty v1.8.0/go.mod h1:vVKLxnk3puL4qRAv72AO+W99LUD4da90g3uUAzyuvAk=
 github.com/zclconf/go-cty v1.10.0 h1:mp9ZXQeIcN8kAwuqorjH+Q+njbJKjLrvB2yIh4q7U+0=

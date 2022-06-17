@@ -37,12 +37,7 @@ select
   pwn_count as size,
   breach_date
 from
-  hibp_breach,
-  jsonb_array_elements(data_classes) as dc
+  hibp_breach
 where
-  dc::text in
-  (
-    '"Passwords"',
-    '"Usernames"'
-  );
+  data_classes ?| array['Usernames','Passwords'];
 ```
