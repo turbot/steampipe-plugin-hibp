@@ -1,3 +1,10 @@
+## v0.0.2 [2022-06-17]
+
+_Enhancements_
+
+- Added column `hash_prefix` to `hibp_password` table. ([#3](https://github.com/turbot/steampipe-plugin-hibp/pull/3))
+- Recompiled plugin with [go-hibp v1.0.3](https://github.com/wneessen/go-hibp/releases/tag/v1.0.3). ([#3](https://github.com/turbot/steampipe-plugin-hibp/pull/3))
+
 ## v0.0.1 [2022-06-09]
 
 _What's new?_
