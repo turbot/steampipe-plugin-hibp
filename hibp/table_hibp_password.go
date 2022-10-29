@@ -68,7 +68,7 @@ func listPasswords(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateDa
 		hashPrefixToSearch = fmt.Sprintf("%x", sha1.Sum([]byte(d.KeyColumnQualString("plaintext"))))
 	}
 
-	matches, _, err := client.PwnedPassApi.ListHashesPrefix(hashPrefixToSearch[:5])
+	matches, _, err := client.PwnedPassAPI.ListHashesPrefix(hashPrefixToSearch[:5])
 	if err != nil {
 		return nil, err
 	}

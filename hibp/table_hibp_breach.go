@@ -41,7 +41,7 @@ func listBreaches(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateDat
 		requestOptions = append(requestOptions, hibp.WithDomain(val.GetStringValue()))
 	}
 
-	breaches, _, err := client.BreachApi.Breaches(requestOptions...)
+	breaches, _, err := client.BreachAPI.Breaches(requestOptions...)
 
 	if err != nil {
 		return nil, err
@@ -67,7 +67,7 @@ func getBreach(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) 
 	quals := d.KeyColumnQuals
 	name := quals["name"].GetStringValue()
 
-	breach, _, err := client.BreachApi.BreachByName(name)
+	breach, _, err := client.BreachAPI.BreachByName(name)
 	if err != nil {
 		return nil, err
 	}

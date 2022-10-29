@@ -35,7 +35,7 @@ func listPastes(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData)
 	}
 
 	quals := d.KeyColumnQuals
-	pastes, _, err := client.PasteApi.PastedAccount(quals["account"].GetStringValue())
+	pastes, _, err := client.PasteAPI.PastedAccount(quals["account"].GetStringValue())
 	if err != nil {
 		return nil, err
 	}
