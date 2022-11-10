@@ -3,6 +3,7 @@ package hibp
 import (
 	"context"
 	"crypto/sha1"
+	"encoding/hex"
 	"fmt"
 	"strconv"
 	"strings"
@@ -48,8 +49,8 @@ func listPasswords(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateDa
 			return nil, fmt.Errorf("'hash' must be exactly 40 characters hexadecimal")
 		}
 		// make sure that this is a valid hex string
-		_, err := strconv.ParseUint(hash, 16, 64)
-		if err != nil {
+		dst := make([]byte, hex.DecodedLen(len(hash)))
+		if _, err := hex.Decode(dst, []byte(hash)); err != nil {
 			return nil, fmt.Errorf("'hash' is not a valid SHA-1 hash")
 		}
 		hashPrefixToSearch = hash
