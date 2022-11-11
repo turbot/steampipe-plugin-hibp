@@ -53,9 +53,9 @@ func getKeysFromConfig(ctx context.Context, d *plugin.QueryData) (apiKey string,
 
 func createClient(ctx context.Context, apiKey string) *hibp.Client {
 	clientOptions := []hibp.Option{
-		hibp.WithApiKey(apiKey),
+		hibp.WithAPIKey(apiKey),
 		hibp.WithUserAgent("Turbot Steampipe (+https://steampipe.io)"),
-		hibp.WithHttpTimeout(3 * time.Second),
+		hibp.WithHTTPTimeout(3 * time.Second),
 		hibp.WithRateLimitSleep(),
 	}
 

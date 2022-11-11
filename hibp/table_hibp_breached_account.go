@@ -57,7 +57,7 @@ func listBreachedAccounts(ctx context.Context, d *plugin.QueryData, h *plugin.Hy
 		requestOptions = append(requestOptions, hibp.WithDomain(val.GetStringValue()))
 	}
 
-	breaches, _, err := client.BreachApi.BreachedAccount(account, requestOptions...)
+	breaches, _, err := client.BreachAPI.BreachedAccount(account, requestOptions...)
 
 	if err != nil {
 		return nil, err
