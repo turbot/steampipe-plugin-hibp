@@ -1,3 +1,10 @@
+## v0.2.0 [2022-11-11]
+
+_Dependencies_
+
+- Recompiled plugin with [go-hibp v1.0.4](https://github.com/wneessen/go-hibp/releases/tag/v1.0.4). ([#6](https://github.com/turbot/steampipe-plugin-hibp/pull/6)) (Thanks [@wneessen](https://github.com/wneessen) for the contribution!)
+- Recompiled plugin with [steampipe-plugin-sdk v4.1.8](https://github.com/turbot/steampipe-plugin-sdk/blob/main/CHANGELOG.md#v418-2022-09-08) which increases the default open file limit. ([#7](https://github.com/turbot/steampipe-plugin-hibp/pull/7))
+
 ## v0.1.0 [2022-09-28]
 
 _Dependencies_
