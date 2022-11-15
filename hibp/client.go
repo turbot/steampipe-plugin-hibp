@@ -62,3 +62,31 @@ func createClient(ctx context.Context, apiKey string) *hibp.Client {
 	cl := hibp.New(clientOptions...)
 	return &cl
 }
+
+// Create a client without an API key
+// Certain tables like hibp_password do not require an API key
+func getHibpClientWithoutAPIKey(ctx context.Context, d *plugin.QueryData) (*hibp.Client, error) {
+	// Try to load client from cache
+	if cachedData, ok := d.ConnectionManager.Cache.Get(constants.CacheKeyHibpClient); ok {
+		return cachedData.(*hibp.Client), nil
+	}
+
+	// create the hibp client without API key
+	client := createClientWithoutAPIKey(ctx)
+
+	// save client in cache
+	d.ConnectionManager.Cache.Set(constants.CacheKeyHibpClient, client)
+
+	return client, nil
+}
+
+func createClientWithoutAPIKey(ctx context.Context) *hibp.Client {
+	clientOptions := []hibp.Option{
+		hibp.WithUserAgent("Turbot Steampipe (+https://steampipe.io)"),
+		hibp.WithHTTPTimeout(3 * time.Second),
+		hibp.WithRateLimitSleep(),
+	}
+
+	cl := hibp.New(clientOptions...)
+	return &cl
+}

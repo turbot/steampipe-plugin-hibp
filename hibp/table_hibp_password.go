@@ -37,7 +37,8 @@ func tableHIBPPassword() *plugin.Table {
 }
 
 func listPasswords(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
-	client, err := getHibpClient(ctx, d)
+
+	client, err := getHibpClientWithoutAPIKey(ctx, d)
 
 	if err != nil {
 		return nil, err
