@@ -4,6 +4,8 @@ A "paste" is information that has been "pasted" to a publicly facing website des
 
 HIBP searches through pastes that are broadcast by the accounts in the Paste Sources Twitter list and reported as having emails that are a potential indicator of a breach. Finding an email address in a paste does not immediately mean it has been disclosed as the result of a breach. Review the paste and determine if your account has been compromised then take appropriate action such as changing passwords.
 
+This table requires an API key to be configured in the `hibp.spc` file.
+
 ## Examples
 
 ### List pastes where `billy@example.com` was included in the paste

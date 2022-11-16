@@ -27,7 +27,7 @@ select
 from
   hibp_breach
 where
-  breach_date > '2022-01-01'
+  breach_date > '2022-01-01';
 ```
 
 ```
@@ -74,7 +74,7 @@ connection "hibp" {
 }
 ```
 
-- `api_key` - (required) The API key to access the HIBP API. Can also be set with the `HIBP_API_KEY` environment variable.
+- `api_key` - The API key to access the HIBP API. Can also be set with the `HIBP_API_KEY` environment variable. This is only required while querying `hibp_breached_account` and `hibp_paste` tables. However, you do not need an API key to query `hibp_breach` and `hibp_password` tables.
 
 ## Get involved
 

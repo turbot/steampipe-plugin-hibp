@@ -4,6 +4,8 @@ The most common use of the API is to return a list of all breaches a particular 
 
 While the `hibp_breaches` table will return all of the known breaches, this table can be used to find breaches for a particular account.
 
+This table requires an API key to be configured in the `hibp.spc` file.
+
 ## Examples
 
 ### List breaches from the last 3 months for an account
