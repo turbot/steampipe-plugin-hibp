@@ -1,4 +1,4 @@
-# Table: hibp_account
+# Table: hibp_breached_account
 
 The most common use of the API is to return a list of all breaches a particular account has been involved in. This table returns data similar to the `hibp_breach` table, with the requirement and addition of an `account` field.
 

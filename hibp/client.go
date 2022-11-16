@@ -2,7 +2,6 @@ package hibp
 
 import (
 	"context"
-	"fmt"
 	"os"
 	"steampipe-plugin-hibp/constants"
 	"time"
@@ -44,8 +43,9 @@ func getKeysFromConfig(ctx context.Context, d *plugin.QueryData) (apiKey string,
 		apiKey = *config.ApiKey
 	}
 
+	// Return an empty value for tables like `hibp_password` and `hibp_breach` tables since they do not need APIs
 	if len(apiKey) == 0 {
-		return "", fmt.Errorf("api key must be configured")
+		return "", nil
 	}
 
 	return apiKey, nil
@@ -63,30 +63,3 @@ func createClient(ctx context.Context, apiKey string) *hibp.Client {
 	return &cl
 }
 
-// Create a client without an API key
-// Certain tables like hibp_password do not require an API key
-func getHibpClientWithoutAPIKey(ctx context.Context, d *plugin.QueryData) (*hibp.Client, error) {
-	// Try to load client from cache
-	if cachedData, ok := d.ConnectionManager.Cache.Get(constants.CacheKeyHibpClient); ok {
-		return cachedData.(*hibp.Client), nil
-	}
-
-	// create the hibp client without API key
-	client := createClientWithoutAPIKey(ctx)
-
-	// save client in cache
-	d.ConnectionManager.Cache.Set(constants.CacheKeyHibpClient, client)
-
-	return client, nil
-}
-
-func createClientWithoutAPIKey(ctx context.Context) *hibp.Client {
-	clientOptions := []hibp.Option{
-		hibp.WithUserAgent("Turbot Steampipe (+https://steampipe.io)"),
-		hibp.WithHTTPTimeout(3 * time.Second),
-		hibp.WithRateLimitSleep(),
-	}
-
-	cl := hibp.New(clientOptions...)
-	return &cl
-}
