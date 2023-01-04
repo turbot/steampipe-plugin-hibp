@@ -43,7 +43,7 @@ func getKeysFromConfig(ctx context.Context, d *plugin.QueryData) (apiKey string,
 		apiKey = *config.ApiKey
 	}
 
-	// Return an empty value for tables like `hibp_password` and `hibp_breach` tables since they do not need APIs
+	// Return nil since some tables like `hibp_password` and `hibp_breach` don't need an API key
 	if len(apiKey) == 0 {
 		return "", nil
 	}
