@@ -68,13 +68,15 @@ Installing the latest hibp plugin will create a config file (`~/.steampipe/confi
 connection "hibp" {
   plugin  = "hibp"
 
-  # Requests to HIBP API needs to carry an API KEY.
-  # You can get one at https://haveibeenpwned.com/API/Key
+  # `api_key` - The API key to access the HIBP API. 
+  # This is only required while querying `hibp_breached_account` and `hibp_paste` tables. 
+  # This can also be set with the 'HIBP_API_KEY' environment variable
+  # See https://haveibeenpwned.com/API/Key for more information on how to generate one
   # api_key = "03ef6bfxxxxxxxxxxxxxxx8ad568286b"
 }
 ```
 
-- `api_key` - The API key to access the HIBP API. Can also be set with the `HIBP_API_KEY` environment variable. This is only required while querying `hibp_breached_account` and `hibp_paste` tables. However, you do not need an API key to query `hibp_breach` and `hibp_password` tables.
+- `api_key` - The API key to access the HIBP API. Can also be set with the `HIBP_API_KEY` environment variable. This is only required while querying `hibp_breached_account` and `hibp_paste` tables.
 
 ## Get involved
 
