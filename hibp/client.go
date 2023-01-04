@@ -33,7 +33,6 @@ func getHibpClient(ctx context.Context, d *plugin.QueryData) (*hibp.Client, erro
 
 // getKeysFromConfig fetches the apiKey from the connection config
 // falls back to the environment variables if it cannot find one in the config
-// returns an error if api key could not be resolved
 func getKeysFromConfig(ctx context.Context, d *plugin.QueryData) (apiKey string, _ error) {
 	config := GetConfig(d.Connection)
 
