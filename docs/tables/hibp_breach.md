@@ -1,6 +1,8 @@
-# Table: hibp_breached_account
+# Table: hibp_breach
 
 A "breach" is an instance of a system having been compromised by an attacker and the data disclosed. For example, Adobe was a breach, Gawker was a breach etc. This returns the details of each of breach in the system which currently stands at 606 breaches.
+
+This table does not require an API key to be configured in the `hibp.spc` file.
 
 ## Examples
 

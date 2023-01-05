@@ -2,7 +2,6 @@ package hibp
 
 import (
 	"context"
-	"fmt"
 	"os"
 	"steampipe-plugin-hibp/constants"
 	"time"
@@ -34,7 +33,6 @@ func getHibpClient(ctx context.Context, d *plugin.QueryData) (*hibp.Client, erro
 
 // getKeysFromConfig fetches the apiKey from the connection config
 // falls back to the environment variables if it cannot find one in the config
-// returns an error if api key could not be resolved
 func getKeysFromConfig(ctx context.Context, d *plugin.QueryData) (apiKey string, _ error) {
 	config := GetConfig(d.Connection)
 
@@ -44,8 +42,9 @@ func getKeysFromConfig(ctx context.Context, d *plugin.QueryData) (apiKey string,
 		apiKey = *config.ApiKey
 	}
 
+	// Return nil since some tables like `hibp_password` and `hibp_breach` don't need an API key
 	if len(apiKey) == 0 {
-		return "", fmt.Errorf("api key must be configured")
+		return "", nil
 	}
 
 	return apiKey, nil
@@ -62,3 +61,4 @@ func createClient(ctx context.Context, apiKey string) *hibp.Client {
 	cl := hibp.New(clientOptions...)
 	return &cl
 }
+
