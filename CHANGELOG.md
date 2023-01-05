@@ -1,3 +1,9 @@
+## v0.2.1 [2023-01-05]
+
+_Bug fixes_
+
+- Fixed `hibp_breach` and `hibp_password` tables to work without an API key. ([#10](https://github.com/turbot/steampipe-plugin-hibp/pull/10))
+
 ## v0.2.0 [2022-11-11]
 
 _Dependencies_
