@@ -70,6 +70,10 @@ Further reading:
 - [Writing plugins](https://steampipe.io/docs/develop/writing-plugins)
 - [Writing your first table](https://steampipe.io/docs/develop/writing-your-first-table)
 
+## Credits
+
+- This plugin was based on the [wedtm/steampipe-plugin-hibp](https://gitlab.com/wedtm/steampipe-plugin-hibp) project. The client and table designs in that project served as the base for this plugin, thanks to [@wedtm](https://github.com/wedtm) for his amazing work!
+
 ## Contributing
 
 Please see the [contribution guidelines](https://github.com/turbot/steampipe/blob/main/CONTRIBUTING.md) and our [code of conduct](https://github.com/turbot/steampipe/blob/main/CODE_OF_CONDUCT.md). All contributions are subject to the [Apache 2.0 open source license](https://github.com/turbot/steampipe-plugin-hibp/blob/main/LICENSE).
