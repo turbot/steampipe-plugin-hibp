@@ -6,7 +6,7 @@ import (
 	"steampipe-plugin-hibp/constants"
 	"time"
 
-	"github.com/turbot/steampipe-plugin-sdk/v4/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/wneessen/go-hibp"
 )
 

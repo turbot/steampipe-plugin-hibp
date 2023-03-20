@@ -3,7 +3,7 @@ package hibp
 import (
 	"context"
 
-	"github.com/turbot/steampipe-plugin-sdk/v4/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/wneessen/go-hibp"
 )
 
@@ -34,10 +34,10 @@ func listBreaches(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateDat
 		hibp.WithoutTruncate(),
 	}
 
-	if val, ok := d.KeyColumnQuals["is_verified"]; ok && val.GetBoolValue() {
+	if val, ok := d.EqualsQuals["is_verified"]; ok && val.GetBoolValue() {
 		requestOptions = append(requestOptions, hibp.WithoutUnverified())
 	}
-	if val, ok := d.KeyColumnQuals["domain"]; ok && val.GetBoolValue() {
+	if val, ok := d.EqualsQuals["domain"]; ok && val.GetBoolValue() {
 		requestOptions = append(requestOptions, hibp.WithDomain(val.GetStringValue()))
 	}
 
@@ -50,7 +50,7 @@ func listBreaches(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateDat
 	for _, breach := range breaches {
 		d.StreamListItem(ctx, breach)
 		// Context can be cancelled due to manual cancellation or the limit has been hit
-		if d.QueryStatus.RowsRemaining(ctx) == 0 {
+		if d.RowsRemaining(ctx) == 0 {
 			return nil, nil
 		}
 	}
@@ -64,7 +64,7 @@ func getBreach(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) 
 		return nil, err
 	}
 
-	quals := d.KeyColumnQuals
+	quals := d.EqualsQuals
 	name := quals["name"].GetStringValue()
 
 	breach, _, err := client.BreachAPI.BreachByName(name)
