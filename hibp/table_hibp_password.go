@@ -8,9 +8,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/turbot/steampipe-plugin-sdk/v4/grpc/proto"
-	"github.com/turbot/steampipe-plugin-sdk/v4/plugin"
-	"github.com/turbot/steampipe-plugin-sdk/v4/plugin/transform"
+	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
+	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
 	"github.com/wneessen/go-hibp"
 )
 
@@ -45,7 +45,7 @@ func listPasswords(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateDa
 	}
 
 	hashPrefixToSearch := ""
-	if hash := d.KeyColumnQualString("hash"); len(hash) > 0 {
+	if hash := d.EqualsQualString("hash"); len(hash) > 0 {
 		if len(hash) != 40 {
 			return nil, fmt.Errorf("'hash' must be exactly 40 characters hexadecimal")
 		}
@@ -55,8 +55,8 @@ func listPasswords(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateDa
 			return nil, fmt.Errorf("'hash' is not a valid SHA-1 hash")
 		}
 		hashPrefixToSearch = hash
-	} else if prefix := d.KeyColumnQualString("hash_prefix"); len(prefix) > 0 {
-		hashPrefixToSearch = d.KeyColumnQualString("hash_prefix")
+	} else if prefix := d.EqualsQualString("hash_prefix"); len(prefix) > 0 {
+		hashPrefixToSearch = d.EqualsQualString("hash_prefix")
 		if len(hashPrefixToSearch) < 5 {
 			return nil, fmt.Errorf("'hash_prefix' must be at least 5 characters")
 		}
@@ -67,7 +67,7 @@ func listPasswords(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateDa
 			return nil, fmt.Errorf("'hash_prefix' is not a valid SHA-1 hash prefix")
 		}
 	} else {
-		hashPrefixToSearch = fmt.Sprintf("%x", sha1.Sum([]byte(d.KeyColumnQualString("plaintext"))))
+		hashPrefixToSearch = fmt.Sprintf("%x", sha1.Sum([]byte(d.EqualsQualString("plaintext"))))
 	}
 
 	matches, _, err := client.PwnedPassAPI.ListHashesPrefix(hashPrefixToSearch[:5])
@@ -84,7 +84,7 @@ func listPasswords(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateDa
 
 			d.StreamListItem(ctx, row)
 			// Context can be cancelled due to manual cancellation or the limit has been hit
-			if d.QueryStatus.RowsRemaining(ctx) < 1 {
+			if d.RowsRemaining(ctx) < 1 {
 				return nil, nil
 			}
 		}
