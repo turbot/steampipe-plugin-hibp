@@ -3,7 +3,7 @@ module steampipe-plugin-hibp
 go 1.21
 
 require (
-	github.com/turbot/steampipe-plugin-sdk/v5 v5.6.1
+	github.com/turbot/steampipe-plugin-sdk/v5 v5.6.2
 	github.com/wneessen/go-hibp v1.0.4
 )
 
