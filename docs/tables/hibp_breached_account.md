@@ -11,6 +11,10 @@ Have I Been Pwned (HIBP) is a free resource that allows anyone to quickly assess
 
 The `hibp_breached_account` table provides insights into breached accounts within Have I Been Pwned (HIBP). As a security analyst, explore account-specific details through this table, including breach names, breach dates, and compromised data types. Utilize it to uncover information about breaches, such as the specific accounts affected, the extent of the breach, and the types of data compromised.
 
+**Important Notes**
+- This table returns data similar to the `hibp_breach` table, with the requirement and addition of an `account` field.. While the `hibp_breaches` table will return all of the known breaches, this table can be used to find breaches for a particular account.
+- This table requires an API key to be configured in the `hibp.spc` file.
+
 ## Examples
 
 ### List breaches from the last 3 months for an account

@@ -11,6 +11,9 @@ HIBP (Have I Been Pwned) is a service that allows users to check whether their p
 
 The `hibp_paste` table provides insights into pastes within HIBP. As a security analyst, explore paste-specific details through this table, including the source, id, title, author, date, email count, and the full URL of the paste. Utilize it to uncover information about pastes, such as those containing compromised personal data, the sources of these pastes, and the extent of personal data leaks.
 
+**Important Notes**
+- This table requires an API key to be configured in the `hibp.spc` file.
+
 ## Examples
 
 ### List pastes where `billy@example.com` was included in the paste

@@ -11,6 +11,10 @@ Have I Been Pwned (HIBP) is a service that collects and analyzes hundreds of dat
 
 The `hibp_password` table provides insights into leaked passwords within HIBP. As a security analyst, use this table to explore details about leaked passwords, including their exposure count. Utilize it to uncover information about passwords, such as their frequency of occurrence in breaches, aiding in the development of more secure password policies.
 
+**Important Notes**
+- You can search by providing the `plaintext` password or the `hash` which is the `SHA-1` hash of the password that you are looking for. Alternatively, you can also search by the `hash_prefix` which is a prefix (at least 5 hex-digits) of the `SHA-1` password.
+- This table does not require an API key to be configured in the `hibp.spc` file.
+
 ## Examples
 
 ### Get the number of times a password hash has been compromised (by hash)

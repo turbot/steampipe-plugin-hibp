@@ -11,6 +11,9 @@ Have I Been Pwned (HIBP) is a service that allows users to check if their person
 
 The `hibp_breach` table provides insights into data leak incidents registered in the Have I Been Pwned database. As a security analyst, explore breach-specific details through this table, including the breach name, domain, date, and associated data classes. Utilize it to uncover information about specific breaches, such as the affected accounts, the nature of the leaked data, and the actions taken to mitigate the breach.
 
+**Important Notes**
+- This table does not require an API key to be configured in the `hibp.spc` file.
+
 ## Examples
 
 ### List breaches from the last 3 months
