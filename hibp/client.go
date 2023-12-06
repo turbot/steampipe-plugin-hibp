@@ -3,7 +3,7 @@ package hibp
 import (
 	"context"
 	"os"
-	"steampipe-plugin-hibp/constants"
+	"github.com/turbot/steampipe-plugin-hibp/constants"
 	"time"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"

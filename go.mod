@@ -1,4 +1,4 @@
-module steampipe-plugin-hibp
+module github.com/turbot/steampipe-plugin-hibp
 
 go 1.21
 

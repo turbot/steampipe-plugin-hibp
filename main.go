@@ -1,7 +1,7 @@
 package main
 
 import (
-	"steampipe-plugin-hibp/hibp"
+	"github.com/turbot/steampipe-plugin-hibp/hibp"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 )
