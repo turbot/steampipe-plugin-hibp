@@ -19,7 +19,7 @@ The `hibp_breach` table provides insights into data leak incidents registered in
 ### List breaches from the last 3 months
 Explore recent security breaches to understand potential vulnerabilities and patterns. This query is particularly useful for identifying recent threats and enhancing security measures accordingly.
 
-```sql
+```sql+postgres
 select
   title,
   breach_date
@@ -29,10 +29,20 @@ where
   breach_date > current_date - interval '3 months';
 ```
 
+```sql+sqlite
+select
+  title,
+  breach_date
+from
+  hibp_breach
+where
+  breach_date > date('now','-3 months');
+```
+
 ### List unverified breaches
 Discover the segments that have experienced unverified security breaches. This can be useful in assessing potential vulnerabilities and prioritizing areas for security enhancement.
 
-```sql
+```sql+postgres
 select
   title,
   pwn_count,
@@ -43,10 +53,21 @@ where
   is_verified = false;
 ```
 
+```sql+sqlite
+select
+  title,
+  pwn_count,
+  breach_date
+from
+  hibp_breach
+where
+  is_verified = 0;
+```
+
 ### List breaches for the `"Passwords"` or `"Usernames"` data classes
 Discover the instances of security breaches involving either passwords or usernames. This can be helpful in understanding the magnitude and timing of such incidents, which can aid in improving data security measures.
 
-```sql
+```sql+postgres
 select
   distinct(title),
   pwn_count as size,
@@ -55,4 +76,8 @@ from
   hibp_breach
 where
   data_classes ?| array['Usernames','Passwords'];
+```
+
+```sql+sqlite
+Error: SQLite does not support array operations.
 ```

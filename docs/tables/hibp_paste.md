@@ -19,7 +19,17 @@ The `hibp_paste` table provides insights into pastes within HIBP. As a security 
 ### List pastes where `billy@example.com` was included in the paste
 Explore pastes where a specific email address was included, helping to identify potential data breaches or unauthorized sharing of information.
 
-```sql
+```sql+postgres
+select
+  id,
+  source
+from
+  hibp_paste
+where
+  account = 'billy@example.com';
+```
+
+```sql+sqlite
 select
   id,
   source
@@ -32,7 +42,7 @@ where
 ### List pastes where `billy@example.com` was included in the last 10 years
 Discover the instances where the email 'billy@example.com' has been involved in any data breaches within the past decade. This is useful for understanding the security history of this specific email address.
 
-```sql
+```sql+postgres
 select
   id,
   source,
@@ -42,4 +52,16 @@ from
 where
   account = 'billy@example.com'
   and date > now() - interval '10 years';
+```
+
+```sql+sqlite
+select
+  id,
+  source,
+  date
+from
+  hibp_paste
+where
+  account = 'billy@example.com'
+  and date > datetime('now', '-10 years');
 ```

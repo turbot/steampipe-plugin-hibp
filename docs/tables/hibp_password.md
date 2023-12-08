@@ -20,7 +20,17 @@ The `hibp_password` table provides insights into leaked passwords within HIBP. A
 ### Get the number of times a password hash has been compromised (by hash)
 Determine the frequency of a specific password hash's compromise. This query is useful for assessing the security of a particular password, helping to decide whether it needs to be changed to maintain data protection.
 
-```sql
+```sql+postgres
+select
+  hash,
+  count
+from
+  hibp_password
+where
+  hash = '908f704ccaadfd86a74407d234c7bde30f2744fe';
+```
+
+```sql+sqlite
 select
   hash,
   count
@@ -33,7 +43,18 @@ where
 ### Get the number of times a password has been compromised (by plaintext)
 Gain insights into the security of a specific password by determining how many times it has been compromised, helping to assess password strength and potential vulnerabilities.
 
-```sql
+```sql+postgres
+select
+  plaintext,
+  hash,
+  count
+from
+  hibp_password
+where
+  plaintext = '123457';
+```
+
+```sql+sqlite
 select
   plaintext,
   hash,
@@ -47,7 +68,18 @@ where
 ### Get the number of times a collection of passwords has been compromised (by prefix)
 Analyze the frequency of password compromises to understand potential vulnerabilities. This could be useful in strengthening security measures by identifying commonly compromised passwords.
 
-```sql
+```sql+postgres
+select
+  plaintext,
+  hash,
+  count
+from
+  hibp_password
+where
+  hash_prefix = '908f704cc';
+```
+
+```sql+sqlite
 select
   plaintext,
   hash,
