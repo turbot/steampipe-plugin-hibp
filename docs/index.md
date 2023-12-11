@@ -79,7 +79,4 @@ connection "hibp" {
 
 - `api_key` - The API key to access the HIBP API. Can also be set with the `HIBP_API_KEY` environment variable. This is only required while querying `hibp_breached_account` and `hibp_paste` tables.
 
-## Get involved
 
-- Open source: https://github.com/turbot/steampipe-plugin-hibp
-- Community: [Join #steampipe on Slack →](https://turbot.com/community/join)
