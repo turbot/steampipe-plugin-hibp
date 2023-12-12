@@ -8,11 +8,12 @@ name: hibp
 description: Steampipe plugin to query breaches, account breaches, pastes and passwords from Have I Been Pwned.
 og_description: Query HIBP data with SQL! Open source CLI. No DB required.
 og_image: "/images/plugins/turbot/hibp-social-graphic.png"
+engines: ["steampipe", "sqlite", "postgres", "export"]
 ---
 
 # Have I Been Pwned + Steampipe
 
-[Steampipe](https://steampipe.io) is an open source CLI to instantly query cloud APIs using SQL.
+[Steampipe](https://steampipe.io) is an open-source zero-ETL engine to instantly query cloud APIs using SQL.
 
 [Have I Been Pwned](https://haveibeenpwned.com) (HIBP) is an online searchable index of data breaches where anyone can quickly assess if they may have been put at risk due to an online account of theirs having been compromised or "pwned" in a data breach.
 
@@ -78,7 +79,4 @@ connection "hibp" {
 
 - `api_key` - The API key to access the HIBP API. Can also be set with the `HIBP_API_KEY` environment variable. This is only required while querying `hibp_breached_account` and `hibp_paste` tables.
 
-## Get involved
 
-- Open source: https://github.com/turbot/steampipe-plugin-hibp
-- Community: [Join #steampipe on Slack →](https://turbot.com/community/join)
