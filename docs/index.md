@@ -13,7 +13,7 @@ engines: ["steampipe", "sqlite", "postgres", "export"]
 
 # Have I Been Pwned + Steampipe
 
-[Steampipe](https://steampipe.io) is an open source CLI to instantly query cloud APIs using SQL.
+[Steampipe](https://steampipe.io) is an open-source zero-ETL engine to instantly query cloud APIs using SQL.
 
 [Have I Been Pwned](https://haveibeenpwned.com) (HIBP) is an online searchable index of data breaches where anyone can quickly assess if they may have been put at risk due to an online account of theirs having been compromised or "pwned" in a data breach.
 
