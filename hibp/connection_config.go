@@ -2,17 +2,10 @@ package hibp
 
 import (
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
-	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/schema"
 )
 
 type HibpConfig struct {
-	ApiKey *string `cty:"api_key"`
-}
-
-var ConfigSchema = map[string]*schema.Attribute{
-	"api_key": {
-		Type: schema.TypeString,
-	},
+	ApiKey *string `hcl:"api_key"`
 }
 
 func ConfigInstance() interface{} {
