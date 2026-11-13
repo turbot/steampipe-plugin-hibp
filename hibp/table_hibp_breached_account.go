@@ -3,9 +3,9 @@ package hibp
 import (
 	"context"
 
-	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
-	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
-	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
+	"github.com/turbot/steampipe-plugin-sdk/v6/grpc/proto"
+	"github.com/turbot/steampipe-plugin-sdk/v6/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v6/plugin/transform"
 	"github.com/wneessen/go-hibp"
 )
 
@@ -20,12 +20,12 @@ func tableHIBPBreachedAccount() *plugin.Table {
 				{Name: "is_verified", Require: plugin.Optional},
 				{Name: "domain", Require: plugin.Optional},
 			},
-			ShouldIgnoreError: ignore404Error,
+			IgnoreConfig: &plugin.IgnoreConfig{ShouldIgnoreErrorFunc: ignore404Error},
 		},
 		Get: &plugin.GetConfig{
-			KeyColumns:        plugin.SingleColumn("name"),
-			Hydrate:           getBreach,
-			ShouldIgnoreError: ignore404Error,
+			KeyColumns:   plugin.SingleColumn("name"),
+			Hydrate:      getBreach,
+			IgnoreConfig: &plugin.IgnoreConfig{ShouldIgnoreErrorFunc: ignore404Error},
 		},
 		Columns: append(breachColumns(), &plugin.Column{
 			Name:        "account",

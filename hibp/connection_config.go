@@ -1,7 +1,7 @@
 package hibp
 
 import (
-	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v6/plugin"
 )
 
 type HibpConfig struct {
@@ -13,10 +13,10 @@ func ConfigInstance() interface{} {
 }
 
 func GetConfig(connection *plugin.Connection) HibpConfig {
-	if connection == nil || connection.Config == nil {
+	if connection == nil || connection.GetConfig() == nil {
 		return HibpConfig{}
 	}
 
-	config, _ := connection.Config.(HibpConfig)
+	config, _ := connection.GetConfig().(HibpConfig)
 	return config
 }
