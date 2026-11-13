@@ -2,17 +2,17 @@ package hibp
 
 import (
 	"context"
-	"os"
 	"github.com/turbot/steampipe-plugin-hibp/constants"
+	"os"
 	"time"
 
-	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v6/plugin"
 	"github.com/wneessen/go-hibp"
 )
 
 func getHibpClient(ctx context.Context, d *plugin.QueryData) (*hibp.Client, error) {
 	// Try to load client from cache
-	if cachedData, ok := d.ConnectionManager.Cache.Get(constants.CacheKeyHibpClient); ok {
+	if cachedData, ok := d.ConnectionCache.Get(ctx, constants.CacheKeyHibpClient); ok {
 		return cachedData.(*hibp.Client), nil
 	}
 
@@ -26,7 +26,7 @@ func getHibpClient(ctx context.Context, d *plugin.QueryData) (*hibp.Client, erro
 	client := createClient(ctx, apiKey)
 
 	// save client in cache
-	d.ConnectionManager.Cache.Set(constants.CacheKeyHibpClient, client)
+	_ = d.ConnectionCache.Set(ctx, constants.CacheKeyHibpClient, client)
 
 	return client, nil
 }
@@ -61,4 +61,3 @@ func createClient(ctx context.Context, apiKey string) *hibp.Client {
 	cl := hibp.New(clientOptions...)
 	return &cl
 }
-
